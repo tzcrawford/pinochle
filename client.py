@@ -39,3 +39,4 @@ def send(message_text, client_socket):
 if __name__ == '__main__':
     client_socket = start()
     send("This is a test message", client_socket)
+    send("This is a second test message", client_socket)

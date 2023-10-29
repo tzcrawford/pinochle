@@ -13,7 +13,7 @@ SERVER_ADDR = (SERVER_IP, PORT)
 HEADER_SIZE = 64 # Length of metadata message we will accept from client tellling us more about the incoming message such as its size
 DISCONNECT_MESSAGE = "DISCONNECT"
 
-# Here we handle the connection from an individual client
+# Here we handle messages from the connection with an individual client
 def handle_client(conn, addr):
     print(f"[NEW CONNECTION] {addr} connected.")
 
@@ -35,10 +35,13 @@ def handle_client(conn, addr):
 
             except Exception as e_msg:
                 print(f"Invalid Message from {addr}: ",e_msg)
-                connected = False
+                continue
         except Exception as e_header:
-            print(f"Invalid Message Header from {addr}:",e_header)
-            connected = False
+            #print(f"Invalid Message Header from {addr}:",e_header) # This line should not be enabled
+                # This is expected to happen if the payload is not a header but rather the subsequent message
+                # In other words, the contents of the loop will run for every client message sent, even if it is the actual message after the header. 
+                # We should just ignore messages if they are not a header as they will be processed correctly if 
+            continue
 
     conn.close()
 
@@ -48,6 +51,7 @@ def handle_client(conn, addr):
 def start():
     # Set up the socket
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) # Prevent the server crashing from restarts accessing the socket
     server_socket.bind(SERVER_ADDR)
     # Start listening for connections
     server_socket.listen()
