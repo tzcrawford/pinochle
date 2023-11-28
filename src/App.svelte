@@ -1,11 +1,11 @@
 <script>
     export let name;
-    let rand = -1;
-        function getRand() {
+    function getRand() {
         fetch("./rand")
         .then(d => d.text())
         .then(d => (rand = d));
     }
+    let rand = getRand();
 </script>
 
 <main>
