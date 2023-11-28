@@ -1,4 +1,4 @@
 __pycache__
-svelte_frontend/node_modules/
-svelte_frontend/public/build/
+node_modules/
+public/build/
 */.DS_Store
