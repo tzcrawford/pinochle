@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import socket
-import server
+import game_server as server
 import json
 from warnings import warn
 
