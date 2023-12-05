@@ -1,6 +1,10 @@
 <script lang="ts">
-/*** Get random number in header ***/
+import { writable } from 'svelte/store';
+
+/*** Holds page title (delete this later) ***/
 export let name;
+
+/*** Get random number in header ***/
 function getRand() {
     fetch("./rand")
     .then(d => d.text())
@@ -14,6 +18,7 @@ function isRequiredFieldValid(value){
 }
 
 /*** Handle user login ***/
+export const authToken = writable(null) // A writable store to hold the JWT token
 let errInputLoginMissing = false
 let errInputLoginIncorrect = false
 let errInputLoginRequestFail = false
@@ -46,23 +51,23 @@ async function onLoginSubmit(e) {
         }
     });
 
-    if (loginFetch.ok) {
-        errInputLoginRequestFail = false
+    if (loginFetch.status === 200) { // Login was successful.
         loginPostResponse = await loginFetch.json()
-    } else {
-        errInputLoginRequestFail = true
-        return false
-    }
-
-    if(loginPostResponse == false ) {
-        errInputLoginIncorrect = true
-        return false
-    } else {
+        errInputLoginRequestFail = false
         errInputLoginIncorrect = false
         console.log("Login Successful")
+        authToken.set(loginPostResponse.access_token)
+        console.log("JWT Token Stored")
         return true
+    } else if (loginFetch.status === 401){ // UN/PW probably didn't match.
+        errInputLoginIncorrect = true
+        errInputLoginRequestFail = false
+        return false
+    } else { // Possibly server connection isn't working out or there is a code bug.
+        errInputLoginRequestFail = true
+        errInputLoginIncorrect = false
+        return false
     }
-    
 };
 </script>
 
@@ -102,7 +107,11 @@ async function onLoginSubmit(e) {
         <p class="error">Invalid Username/Password Entry.</p>
     {/if}
     {#if errInputLoginRequestFail }
-        <p class="error">Failed to POST Login Details to Server.</p>
+        <p class="error">Failed to POST Login Details to Server.
+        {#if loginFetch.message }
+            <p class="error">Error message: {loginFetch.message}</p>
+        {/if}
+        </p>
     {/if}
     </form>
 
