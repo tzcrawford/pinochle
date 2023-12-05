@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-from flask import Flask, send_from_directory
-from flask_cors import CORS, cross_origin
 import random
+from flask import Flask, request, jsonify, send_from_directory
+from flask_jwt_extended import JWTManager, create_access_token
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 CORS(app) # For Cross-Origin Resource Sharing between flask and svelte
@@ -22,6 +23,18 @@ def home(path):
 @app.route("/rand")
 def hello():
     return str(random.randint(0, 100))
+
+@app.route("/login", methods=['POST'])
+def login():
+    try:
+        username = request.json.get('valLoginUsername')
+        password = request.json.get('valLoginPassword')
+    except:
+        return "false" # We cannot return native python True/False vals
+    if username == "a" and password =="b":
+        return "true"
+    else:
+        return "false"
 
 if __name__ == "__main__":
     app.run(debug=True)
