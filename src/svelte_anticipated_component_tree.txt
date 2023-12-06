@@ -1,0 +1,141 @@
+This file details what component files will be used for the Svelte frontend.
+
+- App : The main component that handles the overall structure of your app. Manages routing between menus
+    - Header : What the top of the page will show
+        * Site title (Can change in config)
+            * Links to root web page (Can change link in config)
+                * Should this post back?
+        - UserBanner : Details information about logged in user
+    - Footer : What the bottom of the web page will show
+         * Link to github
+         * Support link
+         * Link to About
+    - Splash : Home screen when user logs in
+        - About : Details about website, host, etc.
+            - Support : How to support project via donations or something like that
+        - ContactsAndSocialMedia
+        - BlogList : List of news posts, most recent first
+            - BlogListItem : Each news post
+                * Date
+                * Title
+                * Content
+        - NewBlogPost : Admin can post news item
+    - LobbyList : Lists the possible lobbies
+        - LobbyListItem : Lists the details about a single lobby
+            * Game in progress/Waiting to start
+            * Player count
+            * List of players (and who is Host)
+            * Time waited before game started
+            * Time counter until expiry
+            * Ranked game (y/n)
+            * Allowed skill level range
+            * Host's Language
+            * Host's Location
+            * Lobby is using rules
+            * Lobby is using custom scoring
+            * Number of spectators (if allowed)
+    - Lobby : Displays the lobby where players join and wait for game to start.
+        - PlayerList : Lists the players in the lobby.
+            - PlayerItem : Represents a single player in the lobby.
+                * Currently responding status
+                * Username
+                * Preferred Name
+                * Games played
+                * Skill Level
+                * W/L % record
+                * Set %
+                * Link to User Profile
+                * Language
+        - GameSettings : Where use can view and host can change game settings
+            * Highlights non-default values
+            - ScoreSettings : Score values for each meldt
+            * Other game options:
+                * Show meldt cards during play phase
+                * Bid winner and partner pass simultaneously
+                * Allowed skill range
+                * Minimum games played threshold (minimum number of games)
+                * Spectators allowed
+                * Spectators can see all cards
+                * Spectator can chat
+                * All players can see all cards
+            * Option to save as preferred game settings
+        * Start button
+    - GameBoard : 
+        - GameInfo : Displays information about current game/lobby
+            * Current game status (what input is being waited on)
+            * Host
+            * Game time
+            * Current hand time
+            * Host Language
+            * Host Location
+            * Ranked Game (Y/N)
+            * Skill Range
+            * Current trump suit
+            * Current auction winner
+            - GameScoreTable : Displays game score
+                - GameScoreRow : Holds values in one row in the score table
+                - GameScoreRoundDivider : An element that draws a line between each round
+                    * Should hold the trump suit
+                * Column for each team (by seat number)
+                    * Highlighted if user is on that team
+        - ChatBox : Allows users to chat in the game
+            * Limits to either players or spectators?
+        - CardTable : Renders the main playing area where cards are placed.
+            - Players : Contains each of the four players
+                - PlayerDetails
+                    * Name
+                    * Currently responding status
+                    * Seat position
+                    * Is Auction Winner
+                    * Currently this user's turn
+            - Card : 
+                * Rank and suit, must include symbol
+                * Highlights on hover if can be selected
+                * Rotation (due to who is holding it
+            - PlayerHand : Contains card items user holds
+            - MeldtCards : Cards currently selected to meldt for each user
+                - PlayerMeldt : One of these for each players
+            - TrickCards : Cards currently selected by each user
+                - PlayerSelectedTrickCard : One player's selected trick card
+        - GameEndPopUp
+            * Winning team with usernames
+            * Losing team with usernames
+            * Other results (e.g. skill level change?)
+    - Authentication : Manages user authentication.
+        - LoginForm : User enters details to log in. 
+            * Should cookies be set up to track here?
+        - Signup : Queries database to create new user.
+            * Username
+            * Password
+            * Email
+            * Preferred Name (Optional)
+            * Location
+            * Language
+            * Starting experience level
+    - UserProfile : 
+        * Username (Can Change?)
+        * Email (Can Change)
+        * Preferred Name (Can change)
+        * Location
+        * Language
+        - UserStats : 
+            - GameHistory : One 
+                - GameHistoryItem : Item giving details for a single game
+                    - GameHistoryScoreTable : (Collapsible) Mimics what we see finally in GameScoreTable upon game completion
+                    - Usernames by seat
+                    * Winners
+                    * RankChange
+            * Current skill level
+            * Set %
+            * Wins/Losses/Games played
+            * Average bid (ignores passing)
+            * Average winning bid (when they win the bid)
+Shared Elements : Things we can use in multiple spots throughout the app
+    - Button
+    - PopUpWindow : Pop up for warning or error
+        * Class acknowledge
+            * Acknowledge button
+        * Class YesNo
+            * Yes and No buttons
+
+
