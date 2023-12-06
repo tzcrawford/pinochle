@@ -35,8 +35,8 @@ This file details what component files will be used for the Svelte frontend.
             * Lobby is using custom scoring
             * Number of spectators (if allowed)
     - Lobby : Displays the lobby where players join and wait for game to start.
-        - PlayerList : Lists the players in the lobby.
-            - PlayerItem : Represents a single player in the lobby.
+        - LobbyPlayerList : Lists the players in the lobby.
+            - LobbyPlayerItem : Represents a single player in the lobby.
                 * Currently responding status
                 * Username
                 * Preferred Name
@@ -60,7 +60,7 @@ This file details what component files will be used for the Svelte frontend.
                 * All players can see all cards
             * Option to save as preferred game settings
         * Start button
-    - GameBoard : 
+    - GameBoard : Holds all game elements once entering the game
         - GameInfo : Displays information about current game/lobby
             * Current game status (what input is being waited on)
             * Host
@@ -80,9 +80,10 @@ This file details what component files will be used for the Svelte frontend.
                     * Highlighted if user is on that team
         - ChatBox : Allows users to chat in the game
             * Limits to either players or spectators?
+            - ChatItem : One message sent in the chat
         - CardTable : Renders the main playing area where cards are placed.
-            - Players : Contains each of the four players
-                - PlayerDetails
+            - GamePlayers : Contains each of the four players
+                - GamePlayerDetails: Gives details on a single player once enterd into the game.
                     * Name
                     * Currently responding status
                     * Seat position
@@ -119,12 +120,12 @@ This file details what component files will be used for the Svelte frontend.
         * Location
         * Language
         - UserStats : 
-            - GameHistory : One 
+            - GameHistory : Details on all historic games
                 - GameHistoryItem : Item giving details for a single game
                     - GameHistoryScoreTable : (Collapsible) Mimics what we see finally in GameScoreTable upon game completion
-                    - Usernames by seat
+                    * Usernames by seat
                     * Winners
-                    * RankChange
+                    * Rank Change
             * Current skill level
             * Set %
             * Wins/Losses/Games played
@@ -137,5 +138,4 @@ Shared Elements : Things we can use in multiple spots throughout the app
             * Acknowledge button
         * Class YesNo
             * Yes and No buttons
-
 

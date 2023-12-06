@@ -1,3 +1,8 @@
+<!--
+App : The main component that handles the overall structure of your app. 
+    * Manages routing between menus
+-->
+
 <script lang="ts">
 import { writable } from 'svelte/store';
 
