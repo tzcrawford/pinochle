@@ -7,12 +7,11 @@ App : The main component that handles the overall structure of your app.
     import { writable } from 'svelte/store'
     //import { fade, blur, fly, slide, scale, draw, crossfade } from 'svelte/transition'
 
-    import PopUpWindow from './SharedComponents/PopUpWindow.svelte'
+    //import PopUpWindow from './SharedComponents/PopUpWindow.svelte'
 
     import Header from './SharedComponents/Header.svelte'
     import Footer from './SharedComponents/Footer.svelte'
     
-    import { authToken } from './SharedComponents/store.js'
     import Authentication from './Panels/Authentication/Authentication.svelte'
     
     /*** Get random number in header ***/
@@ -26,13 +25,8 @@ App : The main component that handles the overall structure of your app.
 </script>
 
 <main>
-    <PopUpWindow 
-        showPopUp={$authToken === null} on:click={() => $authToken === null} 
-        maxWidth="480px" additionalStyle=""
-    >
-        <Authentication />
-    </PopUpWindow>
     <Header />
+    <Authentication />
     <h2>Your number is {rand}!</h2>
     <button on:click={getRand}>Get a random number</button>
     <br /><br /><br /><br />

@@ -6,6 +6,8 @@ Authentication : Manages user authentication.
     import { writable } from 'svelte/store'
     import { isRequiredFieldValid } from '../../SharedComponents/BoilerplateFunctions.js'
 
+    import PopUpWindow from '../../SharedComponents/PopUpWindow.svelte'
+
     // A writable store to hold the JWT token
     import { authToken } from '../../SharedComponents/store.js'
 
@@ -74,42 +76,47 @@ Authentication : Manages user authentication.
     }
 </script>
 
-<div class="authContainer" >
-    <form on:submit|preventDefault={onLoginSubmit}>
-    <div>
-        <label for="inputLoginUsername">Username:</label>
-        <input
-            type="text"
-            id="inputLoginUsername"
-            name="username"
-            bind:value={valLoginUsername}
-        />
-    </div>
-    <div>
-        <label for="inputLoginPassword">Password:</label>
-        <input
-            type="password"
-            id="inputLoginPassword"
-            name="password"
-            bind:value={valLoginPassword}
-        />
-    </div>
-    <button type="btnLoginSubmit">Submit</button>
-    {#if errInputLoginMissing }
-        <p class="error">Username/Password Required.</p>
-    {/if}
-    {#if errInputLoginIncorrect }
-        <p class="error">Invalid Username/Password Entry.</p>
-    {/if}
-    {#if errInputLoginRequestFail }
-        <p class="error">Failed to POST Login Details to Server.
-        {#if loginFetchResult.message }
-            <p class="error">Error message: {loginFetchResult.message}</p>
+<PopUpWindow
+    showPopUp={$authToken === null} on:click={() => $authToken === null}
+    maxWidth="480px" additionalStyle=""
+>
+    <div class="authContainer" >
+        <form on:submit|preventDefault={onLoginSubmit}>
+        <div>
+            <label for="inputLoginUsername">Username:</label>
+            <input
+                type="text"
+                id="inputLoginUsername"
+                name="username"
+                bind:value={valLoginUsername}
+            />
+        </div>
+        <div>
+            <label for="inputLoginPassword">Password:</label>
+            <input
+                type="password"
+                id="inputLoginPassword"
+                name="password"
+                bind:value={valLoginPassword}
+            />
+        </div>
+        <button type="btnLoginSubmit">Submit</button>
+        {#if errInputLoginMissing }
+            <p class="error">Username/Password Required.</p>
         {/if}
-        </p>
-    {/if}
-    </form>
-</div>
+        {#if errInputLoginIncorrect }
+            <p class="error">Invalid Username/Password Entry.</p>
+        {/if}
+        {#if errInputLoginRequestFail }
+            <p class="error">Failed to POST Login Details to Server.
+            {#if loginFetchResult.message }
+                <p class="error">Error message: {loginFetchResult.message}</p>
+            {/if}
+            </p>
+        {/if}
+        </form>
+    </div>
+</PopUpWindow>
 
 <style>
     p.error {
