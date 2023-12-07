@@ -5,8 +5,11 @@ App : The main component that handles the overall structure of your app.
 
 <script lang="ts">
     import { writable } from 'svelte/store'
+    import Header from './SharedComponents/Header.svelte'
+    import Footer from './SharedComponents/Footer.svelte'
     import { authToken } from './SharedComponents/store.js'
     import Authentication from './Panels/Authentication/Authentication.svelte'
+    import { fade, blur, fly, slide, scale, draw, crossfade } from 'svelte/transition'
     
     /*** Get random number in header ***/
     function getRand() {
@@ -19,32 +22,15 @@ App : The main component that handles the overall structure of your app.
 </script>
 
 <main>
-    <h1>Your number is {rand}!</h1>
+    <Header />
+    <h2>Your number is {rand}!</h2>
     <button on:click={getRand}>Get a random number</button>
     <br /><br /><br /><br />
     {#if $authToken === null}
         <Authentication />
     {/if}
+    <Footer />
 </main>
 
 <style>
-    main {
-        text-align: center;
-        padding: 1em;
-        max-width: 240px;
-        margin: 0 auto;
-    }
-
-    h1 {
-        color: #ff3e00;
-        text-transform: uppercase;
-        font-size: 4em;
-        font-weight: 100;
-    }
-
-    @media (min-width: 640px) {
-        main {
-            max-width: none;
-        }
-    }
 </style>
