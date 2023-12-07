@@ -25,7 +25,20 @@ App : The main component that handles the overall structure of your app.
 </script>
 
 <main>
-    <Header />
+    <Header 
+        siteTitle="alternate title"
+        titleHREF="https://google.com"
+        topBarBackColor="red"
+        titleTextSize="1em"
+        titleTextColor="pink"
+        titleTextHoverColor="green"
+        titleBold=false
+        titleTextAdditionalStyle="padding: 80px"
+    >
+        test test
+        <br />
+        test test test
+    </Header>
     <Authentication />
     <h2>Your number is {rand}!</h2>
     <button on:click={getRand}>Get a random number</button>
