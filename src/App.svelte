@@ -26,14 +26,6 @@ App : The main component that handles the overall structure of your app.
 
 <main>
     <Header 
-        siteTitle="alternate title"
-        titleHREF="https://google.com"
-        topBarBackColor="red"
-        titleTextSize="1em"
-        titleTextColor="pink"
-        titleTextHoverColor="green"
-        titleBold=false
-        titleTextAdditionalStyle="padding: 80px"
     >
         test test
         <br />
