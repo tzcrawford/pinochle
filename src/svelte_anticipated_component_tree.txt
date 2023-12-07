@@ -134,8 +134,4 @@ This file details what component files will be used for the Svelte frontend.
 Shared Elements : Things we can use in multiple spots throughout the app
     - Button
     - PopUpWindow : Pop up for warning or error
-        * Class acknowledge
-            * Acknowledge button
-        * Class YesNo
-            * Yes and No buttons
 

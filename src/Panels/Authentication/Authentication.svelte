@@ -5,10 +5,10 @@ Authentication : Manages user authentication.
 <script lang="ts">
     import { writable } from 'svelte/store'
     import { isRequiredFieldValid } from '../../SharedComponents/BoilerplateFunctions.js'
-    
+
     // A writable store to hold the JWT token
     import { authToken } from '../../SharedComponents/store.js'
-    
+
     /*** Handle user login ***/
 
     let errInputLoginMissing = false
@@ -26,7 +26,7 @@ Authentication : Manages user authentication.
             const [key, value] = field
             loginData[key] = value
         }
-    
+
         // Validate loginData was entered
         if(!(
             isRequiredFieldValid(loginData.username) && isRequiredFieldValid(loginData.password)
@@ -36,8 +36,8 @@ Authentication : Manages user authentication.
         } else {
             errInputLoginMissing = false
         }
-    
-   
+
+
         try { // This is to prevent silent errors. we can fail on setting $authToken, so instead we just kick right back to login menu if that happens
             let loginPostResponse = null
             loginFetchResult = await fetch('/login', {
@@ -47,7 +47,7 @@ Authentication : Manages user authentication.
                     'Content-Type': 'application/json'
                 }
             })
- 
+
             if (loginFetchResult.status === 200) { // Login was successful.
                 loginPostResponse = await loginFetchResult.json()
                 errInputLoginRequestFail = false
@@ -74,44 +74,53 @@ Authentication : Manages user authentication.
     }
 </script>
 
-<form on:submit|preventDefault={onLoginSubmit}>
-<div>
-    <label for="inputLoginUsername">username:</label>
-    <input
-        type="text"
-        id="inputLoginUsername"
-        name="username"
-        bind:value={valLoginUsername}
-    />
-</div>
-<div>
-    <label for="inputLoginPassword">Password:</label>
-    <input
-        type="password"
-        id="inputLoginPassword"
-        name="password"
-        bind:value={valLoginPassword}
-    />
-</div>
-<button type="btnLoginSubmit">Submit</button>
-{#if errInputLoginMissing }
-    <p class="error">Username/Password Required.</p>
-{/if}
-{#if errInputLoginIncorrect }
-    <p class="error">Invalid Username/Password Entry.</p>
-{/if}
-{#if errInputLoginRequestFail }
-    <p class="error">Failed to POST Login Details to Server.
-    {#if loginFetchResult.message }
-        <p class="error">Error message: {loginFetchResult.message}</p>
+<div class="authContainer" >
+    <form on:submit|preventDefault={onLoginSubmit}>
+    <div>
+        <label for="inputLoginUsername">Username:</label>
+        <input
+            type="text"
+            id="inputLoginUsername"
+            name="username"
+            bind:value={valLoginUsername}
+        />
+    </div>
+    <div>
+        <label for="inputLoginPassword">Password:</label>
+        <input
+            type="password"
+            id="inputLoginPassword"
+            name="password"
+            bind:value={valLoginPassword}
+        />
+    </div>
+    <button type="btnLoginSubmit">Submit</button>
+    {#if errInputLoginMissing }
+        <p class="error">Username/Password Required.</p>
     {/if}
-    </p>
-{/if}
-</form>
+    {#if errInputLoginIncorrect }
+        <p class="error">Invalid Username/Password Entry.</p>
+    {/if}
+    {#if errInputLoginRequestFail }
+        <p class="error">Failed to POST Login Details to Server.
+        {#if loginFetchResult.message }
+            <p class="error">Error message: {loginFetchResult.message}</p>
+        {/if}
+        </p>
+    {/if}
+    </form>
+</div>
 
 <style>
     p.error {
         color: red;
         font-weight: bold;
+    }
+    .authContainer {
+        color: black;
+        background-color: #f5f5f5;
+        padding: 20px;
+        text-align: center;
+        border-radius: 10px;
     }
 </style>
