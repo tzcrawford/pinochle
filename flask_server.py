@@ -5,11 +5,15 @@ import json
 from flask import Flask, request, jsonify, send_from_directory, send_file
 from flask_jwt_extended import JWTManager, create_access_token
 from flask_cors import CORS, cross_origin
+import keyring
 
 config_file = "config.json"
 
 with open(config_file) as config_json:
     config = json.load(config_json)
+
+# Collect password for db queries
+db_password = keyring.get_password
 
 app = Flask(__name__)
 

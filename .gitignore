@@ -2,4 +2,8 @@ __pycache__
 node_modules/
 public/build/
 */.DS_Store
+*.bkp
+*.bkp-[0-9]*
 config.json
+database/
+

@@ -1,6 +1,12 @@
 {
 "siteTitle": "Pinochle",
 "siteURL": "localhost:5000",
+"postgresDBName": "pinochle",
+"postgresPort": "5432",
+"postgresDBLocation": "database",
+"postgresLocale": "C.UTF-8",
+"postgresEncoding": "UTF8",
+"postgresUsername": "pinochleuser",
 "headerBar": {
     "titleTextSize": "3em",
     "titleTextColor": "#ff3e00",
