@@ -5,6 +5,12 @@ function fail_to_run {
     exit 1
 }
 
+# Create config.json if one does not yet exist. This is not tracked with git for confidentiality reasons.
+if ! ls config.json > /dev/null 2>&1 ; then
+    echo "Config not found, creating one from the template."
+    cp config.json.template config.json
+fi
+
 # Ensure create-svelte is installed such that we can autobuild our app
 if ! npm list -g --depth 0 | grep create-svelte > /dev/null ; then 
     read -p "Not finding svelte packages. Should we run \`npm install -g create-svelte\`? [Y/n]" confirm_install_svelte
@@ -18,6 +24,7 @@ if ! npm list -g --depth 0 | grep create-svelte > /dev/null ; then
     esac
 fi
 
+# This suppresses an error due to vulnerabilities in dependencies for svelte
 if npm install --dry-run | grep "vulnerabilities"; then
     read -p "Vulnerabilities found in packages described in \`package.json\`. Should we run \`npx npm-force-resolutions\`? [Y/n]" confirm_fix_vulnerabilities
     case "$confirm_fix_vulnerabilities" in
