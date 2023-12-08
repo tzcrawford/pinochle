@@ -10,6 +10,7 @@ App : The main component that handles the overall structure of your app.
     //import PopUpWindow from './SharedComponents/PopUpWindow.svelte'
 
     import Header from './SharedComponents/Header.svelte'
+    import HeaderUserBanner from './SharedComponents/HeaderUserBanner.svelte'
     import Footer from './SharedComponents/Footer.svelte'
     
     import Authentication from './Panels/Authentication/Authentication.svelte'
@@ -25,12 +26,7 @@ App : The main component that handles the overall structure of your app.
 </script>
 
 <main>
-    <Header 
-    >
-        test test
-        <br />
-        test test test
-    </Header>
+    <Header><HeaderUserBanner /></Header>
     <Authentication />
     <h2>Your number is {rand}!</h2>
     <button on:click={getRand}>Get a random number</button>

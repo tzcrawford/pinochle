@@ -38,8 +38,8 @@ def login():
         return "false" # We cannot return native python True/False vals
     if username == "a" and password =="b":
         access_token=create_access_token(identity=username) # May need to do something more comprehensive here depending on if we want to define it on a databased ID or something like that.
-        print(access_token)
-        return jsonify({'access_token': access_token}), 200
+        print(jsonify({'access_token': access_token, 'username': username}))
+        return jsonify({'access_token': access_token, 'username': username}), 200
     else:
         return jsonify({'message': 'Invalid credentials'}), 401
 

@@ -9,7 +9,7 @@ Authentication : Manages user authentication.
     import PopUpWindow from '../../SharedComponents/PopUpWindow.svelte'
 
     // A writable store to hold the JWT token
-    import { authToken } from '../../SharedComponents/store.js'
+    import { authToken, username } from '../../SharedComponents/store.js'
 
     /*** Handle user login ***/
 
@@ -56,6 +56,7 @@ Authentication : Manages user authentication.
                 errInputLoginIncorrect = false
                 console.log("Login Successful")
                 authToken.set(loginPostResponse.access_token) // Make sure not to do $authtoken.set with a dollar sign
+                username.set(loginPostResponse.username) // Make sure not to do $authtoken.set with a dollar sign
                 console.log("Auth token saved to Svelte store")
                 return true
             } else if (loginFetchResult.status === 401){ // UN/PW probably didn't match.
