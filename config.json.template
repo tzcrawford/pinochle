@@ -8,6 +8,7 @@
     "topBarBackColor": "#cccccc",
     "titleBold": true,
     "titleAdditionalStyle": ""
-    }
+    },
+"JWT_secret_key": null
 }
 

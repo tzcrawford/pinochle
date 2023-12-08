@@ -57,7 +57,7 @@ Authentication : Manages user authentication.
                 console.log("Login Successful")
                 authToken.set(loginPostResponse.access_token) // Make sure not to do $authtoken.set with a dollar sign
                 username.set(loginPostResponse.username) // Make sure not to do $authtoken.set with a dollar sign
-                console.log("Auth token saved to Svelte store")
+                //console.log("Auth token saved to Svelte store")
                 return true
             } else if (loginFetchResult.status === 401){ // UN/PW probably didn't match.
                 errInputLoginIncorrect = true

@@ -1,17 +1,29 @@
 #!/usr/bin/env python
 import random
 import os
+import json
 from flask import Flask, request, jsonify, send_from_directory, send_file
 from flask_jwt_extended import JWTManager, create_access_token
 from flask_cors import CORS, cross_origin
 
+config_file = "config.json"
+
+with open(config_file) as config_json:
+    config = json.load(config_json)
+
 app = Flask(__name__)
+
 CORS(app) # For Cross-Origin Resource Sharing between flask and svelte
     # Specifically, it applies CORS header 'Access-Control-Allow-Origin' to allow data transfer between servers if on different machines (?)
     # Other method would be to use cross_origin decorator along with @app.route
     # https://flask-cors.readthedocs.io/en/latest/
-jwt = JWTManager(app) # For JSON Web Token authentication (on subsequent requests).
-app.config['SECRET_KEY'] = os.urandom(24) # Need this key for JWT.
+
+# For JSON Web Token (JWT) authentication (on subsequent requests).
+jwt = JWTManager(app) 
+if 'JWT_secret_key' in config and config['JWT_secret_key'] is not None:
+    app.config['SECRET_KEY'] = config['JWT_secret_key']
+else:
+    app.config['SECRET_KEY'] = os.urandom(24) 
     # Code generates a 192 bit random string, which should be suitible to regenerate every time the server script restarts.
     # This is because if the server restarts, user tokens should be reset.
 

@@ -19,7 +19,7 @@ App : The main component that handles the overall structure of your app.
         const configResponse = await fetchConfig();
         console.log("Config fetched:", configResponse);
         config.set(configResponse)
-        console.log("Config saved to svelte store, it translates to", JSON.stringify($config))
+        //console.log("Config saved to svelte store, it translates to", JSON.stringify($config))
     } catch (error) {
         console.error("Error fetching config:", error.message);
     }
