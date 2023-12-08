@@ -5,7 +5,6 @@ App : The main component that handles the overall structure of your app.
 
 <script lang="ts">
     import { writable } from 'svelte/store'
-    //import { fade, blur, fly, slide, scale, draw, crossfade } from 'svelte/transition'
 
     //import PopUpWindow from './SharedComponents/PopUpWindow.svelte'
 
