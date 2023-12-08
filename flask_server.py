@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import random
 import os
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, send_file
 from flask_jwt_extended import JWTManager, create_access_token
 from flask_cors import CORS, cross_origin
 
@@ -24,6 +24,13 @@ def base():
 @app.route("/<path:path>")
 def home(path):
     return send_from_directory('./public', path)
+
+@app.route('/config')
+def get_config():
+    try:
+        return send_file('config.json', mimetype='application/json')
+    except FileNotFoundError:
+        return jsonify({'error': 'Config file not found'}), 404
 
 @app.route("/rand")
 def hello():

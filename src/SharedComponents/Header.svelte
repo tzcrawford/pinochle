@@ -6,22 +6,25 @@ Header : What the top of the page will show
 -->
 
 <script lang="ts">
-    export let siteTitle = "Pinochle Site"
-    export let titleHREF = "localhost:5000"
-    export let topBarBackColor = "#cccccc"
-    export let titleTextSize = "3em"
-    export let titleTextColor = "#ff3e00"
-    export let titleTextHoverColor = "#ff3e00"
+    import { config } from './store.js'
+
+    export let siteTitle = $config.siteTitle
+    export let titleHREF = $config.siteURL
+    export let headerBarBackColor = $config.headerBar.topBarBackColor
+    export let titleTextSize = $config.headerBar.titleTextSize
+    export let titleTextColor = $config.headerBar.titleTextColor
+    export let titleTextHoverColor = $config.headerBar.titleTextHoverColor
+
     let titleTextColor_ = titleTextColor // We have this just to have something re-assignable on hover
     let setTitleTextColorHover = (isHovered) => {
         titleTextColor_ = isHovered ? titleTextHoverColor : titleTextColor;
     }
-    export let titleBold = "true"
-    export let titleTextAdditionalStyle = ""
+    export let titleBold = String($config.headerBar.titleBold)
+    export let titleTextAdditionalStyle = $config.headerBar.titleAdditionalStyle
 </script>
 
 <header class="TopBar"
-    style={"background-color: " + topBarBackColor + ";font-weight: normal;"}
+    style={"background-color: " + headerBarBackColor + ";font-weight: normal;"}
 >
     <div class="LineContainer">
         <div class="WebTitle"
@@ -58,7 +61,7 @@ Header : What the top of the page will show
     .WebTitle {
         text-align: left;
     }
-    .WebTitle a { 
+    .WebTitle a {
         display: inline-block;
         text-align: left;
         text-decoration: none;

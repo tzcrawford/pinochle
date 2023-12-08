@@ -1,0 +1,13 @@
+{
+"siteTitle": "Pinochle",
+"siteURL": "localhost:5000",
+"headerBar": {
+    "titleTextSize": "3em",
+    "titleTextColor": "#ff3e00",
+    "titleTextHoverColor": "#ff3e00",
+    "topBarBackColor": "#cccccc",
+    "titleBold": true,
+    "titleAdditionalStyle": ""
+    }
+}
+
