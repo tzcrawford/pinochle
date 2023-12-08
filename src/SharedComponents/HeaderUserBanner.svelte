@@ -3,11 +3,10 @@
     Or offers them a link to log in.
 -->
 <script lang="ts">
-    import { fade,crossfade,slide } from 'svelte/transition'
-    import { flip } from 'svelte/animate'
+    import { slide } from 'svelte/transition'
 
     import { username } from './store.js'
-    let userSkillLevel
+    import { userSkillLevel } from './store.js'
     let userGamesPlayed
     let userWLRat
     let userLocation
@@ -15,54 +14,54 @@
 </script>
 
 <div class="BannerBlock">
-    {#key username}
-    {#if $username === null }
-        <div class="slide-transition" 
-             in:slide={{ duration: 1000, delay: 1000, axis: 'x', margin-left: 0%}} 
-             out:slide={{ duration: 1000, delay: 100, axis: 'x', margin-left: -100% }}
-        >
-            Not logged in
-        </div>
-    {:else}
-        <div class="slide-transition" 
-             in:slide={{ duration: 1000, delay: 1000, axis: 'x', margin-left: 0%}} 
-             out:slide={{ duration: 1000, delay: 100, axis: 'x', margin-left: -100% }}
-        >
-            <table class="userBannerContent">
-                <tr>
-                    <td>
-                        User:
-                    </td><td>
-                        <strong>{$username}</strong>
-                    </td><td>
-                        Skill Level:
-                    </td><td>
-                        <strong>{userSkillLevel}</strong>
-                    </td>
-                </tr><tr>
-                    <td>
-                        Games Played:
-                    </td><td>
-                        <strong>{userGamesPlayed}</strong>
-                    </td><td>
-                        W/L Ratio:
-                    </td><td>
-                        <strong>{userWLRat}</strong>
-                    </td>
-                </tr><tr>
-                    <td>
-                        Location:
-                    </td><td>
-                        <strong>{userLocation}</strong>
-                    </td><td>
-                        Language:
-                    </td><td>
-                        <strong>{userLanguage}</strong>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    {/if}
+    {#key username, userSkillLevel, userGamesPlayed, userWLRat, userLocation, userLanguage}
+        {#if $username === null }
+            <div class="slide-transition" 
+                 in:slide={{ duration: 1000, delay: 100, axis: 'x' }} 
+                 out:slide={{ duration: 100, delay:   0, axis: 'x' }}
+            >
+                Not logged in
+            </div>
+        {:else}
+            <div class="slide-transition" 
+                 in:slide={{ duration: 1000, delay: 100, axis: 'x' }} 
+                 out:slide={{ duration: 100, delay:   0, axis: 'x' }}
+            >
+                <table class="userBannerContent">
+                    <tr>
+                        <td>
+                            User:
+                        </td><td>
+                            <strong>{$username}</strong>
+                        </td><td>
+                            Skill Level:
+                        </td><td>
+                            <strong>{$userSkillLevel}</strong>
+                        </td>
+                    </tr><tr>
+                        <td>
+                            Games Played:
+                        </td><td>
+                            <strong>{userGamesPlayed}</strong>
+                        </td><td>
+                            W/L Ratio:
+                        </td><td>
+                            <strong>{userWLRat}</strong>
+                        </td>
+                    </tr><tr>
+                        <td>
+                            Location:
+                        </td><td>
+                            <strong>{userLocation}</strong>
+                        </td><td>
+                            Language:
+                        </td><td>
+                            <strong>{userLanguage}</strong>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        {/if}
     {/key}
 </div>
 

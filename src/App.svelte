@@ -5,6 +5,7 @@ App : The main component that handles the overall structure of your app.
 
 <script lang="ts">
     import { writable } from 'svelte/store'
+    import { userSkillLevel } from './SharedComponents/store.js'
 
     //import PopUpWindow from './SharedComponents/PopUpWindow.svelte'
 
@@ -15,12 +16,14 @@ App : The main component that handles the overall structure of your app.
     import Authentication from './Panels/Authentication/Authentication.svelte'
     
     /*** Get random number in header ***/
+    let rand
     function getRand() {
         fetch("./rand")
         .then(d => d.text())
         .then(d => (rand = d));
     }
-    let rand = getRand();
+    getRand();
+    $: userSkillLevel.set(rand)
     
 </script>
 
