@@ -22,7 +22,7 @@ The software stack includes:
 2. A flask web server middle-man which handles communication from users running the frontend in their browser and requests which otherwise would go to the game or SQL database servers. This allows for reduction in the likelihood of cheating among other things.
 3. A python [socket](https://docs.python.org/3/library/socket.html)-based game server which handles game logic abstracted from the flask elements.
 4. A PostgreSQL server for maintaining information like user statistics, game history, and user authentication.
-5. Linux server(s) running the servers (svelte, flask, game, SQL), with network routing via NGINX, probably using a reverse proxy to make flask accessible.
+5. Linux machine(s) running the servers (svelte, flask, game, SQL), with network routing via NGINX, probably using a reverse proxy to make flask accessible.
 
 ## How to use this software
 
@@ -43,7 +43,7 @@ The software stack includes:
 1. Ensure the postgres service is enabled and running.
 2. Run `./flask_server.py` to start hosting the web server, navigate to http://localhost:5000 to load the client on your own machine.
 3. Run the `./game_server.py` (Currently incomplete!) so that flask can query other threads for game logic.
-4. Optionally (?) run `./run-svelte.sh` to activate the automatic svelte compiler on file save to one of the `*.svelte` files.
+4. Optionally (?) run `./run-svelte.sh` to activate the automatic svelte compiler on file save to one of the frontend source code files.
 
 ## License and Attribution
 
