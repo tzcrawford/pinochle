@@ -1,7 +1,7 @@
 #!/bin/sh
 # This script will set up a SQL database for the pinochle app
 
-CONFIG_FILE="config.json"
+CONFIG_FILE="../config.json"
 
 # Check if config.json exists; if not, create from template
 if [ ! -e "$CONFIG_FILE" ]; then
@@ -122,4 +122,7 @@ EOF`
 check_install || exit 1
 check_db_initialized || exit 1
 check_db_valid || exit 1
+./countries_table_setup.sh || exit 1
+./languages_table_setup.sh || exit 1
+./pinochle_table_setup.sh || exit 1
 

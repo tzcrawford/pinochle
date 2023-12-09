@@ -15,6 +15,7 @@
     "titleBold": true,
     "titleAdditionalStyle": ""
     },
-"JWT_secret_key": null
+"JWT_secret_key": null,
+"starting_skill": 1600
 }
 
