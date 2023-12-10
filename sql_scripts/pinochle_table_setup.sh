@@ -24,6 +24,7 @@ CREATE TABLE users (
     userid SERIAL PRIMARY KEY,
     username VARCHAR(25) NULL,
     email VARCHAR(40) NULL,
+    password TEXT NULL,
     language VARCHAR(15) NULL,
     location VARCHAR(25) NULL,
     country_code CHAR(2) NULL,
@@ -85,12 +86,12 @@ CREATE INDEX game ON hands (game);
 # Create some test users
 source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 INSERT INTO users
-    (username,email,language,location,country_code,current_skill)
+    (username,email,password,language,location,country_code,current_skill)
 VALUES
- ('admin','fake@email.com','English','New York','US',$STARTING_SKILL)
-,('test_user_1','test1@email.com','English','Los Angeles','US',$STARTING_SKILL)
-,('test_user_2','test2@email.com','English','Chicago','US',$STARTING_SKILL)
-,('test_user_3','test2@email.com','German','Hamburg','DE',$STARTING_SKILL);
+ ('admin'      ,'fake@email.com' ,crypt('adminpass', gen_salt('bf')),'English','New York','US',$STARTING_SKILL)
+,('test_user_1','test1@email.com',crypt('u1pass'   , gen_salt('bf')),'English','Los Angeles','US',$STARTING_SKILL)
+,('test_user_2','test2@email.com',crypt('u2pass'   , gen_salt('bf')),'English','Chicago','US',$STARTING_SKILL)
+,('test_user_3','test2@email.com',crypt('u3pass'   , gen_salt('bf')),'German','Hamburg','DE',$STARTING_SKILL);
 "
 
 

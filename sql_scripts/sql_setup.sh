@@ -33,8 +33,8 @@ function check_install {
         sudo pacman -S postgresql || return 1
     elif grep -E "Debian|Ubuntu" /etc/os-release &> /dev/null; then
         echo "Detected Debian style distro"
-        read -p "Running \`sudo apt install postgresql\`. Press enter or use Ctrl+C and run this manually if you prefer."
-        sudo apt install postgresql || return 1
+        read -p "Running \`sudo apt install postgresql postgresql-contrib libpq-dev\`. Press enter or use Ctrl+C and run this manually if you prefer."
+        sudo apt install postgresql postgresql-contrib libpq-dev || return 1
     else
         echo "Could not determine install method. Please install PostgreSQL manually."
         return 1
@@ -84,10 +84,34 @@ SQL
         psql -h localhost -p 5432 -U postgres << SQL
 DROP USER IF EXISTS "$DB_USER" ;
 SQL
+         
+        echo "Enabling pgcrypt for password encryption."
+        psql -h localhost -p 5432 -U postgres << SQL
+CREATE EXTENSION pgcrypto;
+SQL
+        #echo "Setting password encryption algorithm to scram-sha-256 ./database/pg_hba.conf"
+        #sed -i 's/ trust/ scram-sha-256/g' ./database/pg_hba.conf || return 1
+        echo "Reloading system database"
+        psql -h localhost -p 5432 -U postgres << SQL
+SELECT pg_reload_conf()
+SQL
+
+        echo "Creating new user and database for app."
         psql -h localhost -p 5432 -U postgres << SQL
 CREATE USER "$DB_USER" WITH PASSWORD '$random_password';
 CREATE DATABASE "$DB_NAME" OWNER "$DB_USER";
 SQL
+
+        echo "Enabling pgcrypt for password encryption in the app database."
+        psql -h localhost -p 5432 -d "$DB_NAME" -U postgres << SQL
+CREATE EXTENSION pgcrypto;
+SQL
+
+        echo "Reloading app database"
+        psql -h localhost -p 5432 -d "$DB_NAME" -U postgres << SQL
+SELECT pg_reload_conf()
+SQL
+
         # Save the newly generated password to a file that can be sourced.
         echo "export PGPASSWORD=$random_password" > ./${DB_USER}_password && chmod 600 ./${DB_USER}_password
         psql -h localhost -p 5432 -U postgres << SQL
@@ -128,4 +152,5 @@ check_db_valid || exit 1
 ./sql_scripts/languages_table_setup.sh || exit 1
 ./sql_scripts/pinochle_table_setup.sh || exit 1
 ./sql_scripts/define_views.sh || exit 1
+./sql_scripts/define_procedures.sh || exit 1
 
