@@ -35,7 +35,7 @@ App : The main component that handles the overall structure of your app.
 
     import Authentication from './Panels/Authentication/Authentication.svelte'
 
-    /*** Get random number in header ***/
+    /*** Get random number in header 
     let rand
     function getRand() {
         fetch("./rand")
@@ -44,6 +44,7 @@ App : The main component that handles the overall structure of your app.
     }
     getRand();
     $: userSkillLevel.set(rand)
+    ***/
 
 </script>
 
@@ -51,8 +52,8 @@ App : The main component that handles the overall structure of your app.
     {#if $config !== null}
         <Header><HeaderUserBanner /></Header>
         <Authentication />
-        <h2>Your number is {rand}!</h2>
-        <button on:click={getRand}>Get a random number</button>
+        <h2>Your number is {1}!</h2>
+        <button on:click={() => {}}>Get a random number</button>
         <br /><br /><br /><br />
         <Footer />
     {:else}

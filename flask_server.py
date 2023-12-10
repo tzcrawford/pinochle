@@ -6,6 +6,7 @@ from flask import Flask, request, jsonify, send_from_directory, send_file
 from flask_jwt_extended import JWTManager, create_access_token
 from flask_cors import CORS, cross_origin
 import keyring
+import sql_connect as sc
 
 config_file = "config.json"
 
@@ -48,18 +49,27 @@ def get_config():
     except FileNotFoundError:
         return jsonify({'error': 'Config file not found'}), 404
 
-@app.route("/rand")
-def hello():
-    return str(random.randint(0, 100))
-
 @app.route("/login", methods=['POST'])
 def login():
     try:
         username = request.json.get('valLoginUsername')
         password = request.json.get('valLoginPassword')
     except:
-        return "false" # We cannot return native python True/False vals
-    if username == "a" and password =="b":
+        return "false" # We cannot return native python True/False values
+
+    # Verify the username and password with a query to SQL.
+    con = sc.SQLConnection()
+    #userID = con.execute(f"\
+    #    SELECT userid \
+    #    FROM users \
+    #    WHERE username = {username} \
+    #    LIMIT 1 \
+    #")
+    pass_auth_df = con.select(f"\
+        SELECT pass_auth('{username}', '{password}') \
+    ")
+
+    if len(pass_auth_df) > 0:
         access_token=create_access_token(identity=username) # May need to do something more comprehensive here depending on if we want to define it on a databased ID or something like that.
         print(jsonify({'access_token': access_token, 'username': username}))
         return jsonify({'access_token': access_token, 'username': username}), 200
