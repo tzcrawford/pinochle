@@ -23,10 +23,10 @@ EOF
 
 
 PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
-DROP TABLE IF EXISTS user_details CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
 "
 PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
-CREATE TABLE user_details (
+CREATE TABLE users (
     userid SERIAL PRIMARY KEY,
     username VARCHAR(25) NULL,
     email VARCHAR(40) NULL,
@@ -44,7 +44,7 @@ PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" 
 CREATE TABLE games (
     gameid SERIAL PRIMARY KEY,
     lobby_title VARCHAR(50) NULL,
-    host INTEGER REFERENCES user_details(userid),
+    host INTEGER REFERENCES users (userid),
     time_created TIMESTAMP NULL DEFAULT NOW(),
     time_started TIMESTAMP NULL,
     playercount INTEGER NULL,
@@ -62,34 +62,13 @@ DROP TABLE IF EXISTS game_players CASCADE;
 PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 CREATE TABLE game_players (
     gameid INTEGER NOT NULL,
-    player INTEGER NOT NULL REFERENCES user_details(userid),
+    player INTEGER NOT NULL REFERENCES users (userid),
     won BOOLEAN NULL,
     rank_at_start INTEGER NULL,
     rank_at_end INTEGER NULL
 );
 CREATE INDEX gameid ON game_players (gameid);
 CREATE INDEX player ON game_players (player);
-"
-
-PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
-DROP VIEW IF EXISTS user_details_vw;
-"
-PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
-CREATE VIEW user_details_vw AS
-SELECT 
-    a.userid,a.username,a.language,a.location,a.country_code,a.current_skill
-    ,COALESCE(SUM(c.gameid)              ,0) AS games_played
-    ,COALESCE(SUM(b.won::INTEGER),0) AS games_won
-    ,MIN(c.time_created) AS first_game
-    ,MAX(c.time_created) AS recent_game
-    ,LEAST(    MIN(b.rank_at_start),MIN(b.rank_at_end)) AS  lowest_all_time_skill
-    ,GREATEST( MAX(b.rank_at_start),MAX(b.rank_at_end)) AS highest_all_time_skill
-    ,AVG(winning_bid) AS average_winning_bid
-FROM user_details AS a
-LEFT JOIN game_players AS b ON b.player = a.userid
-LEFT JOIN games AS c ON c.gameid = b.gameid
-LEFT JOIN hands AS d ON d.game = c.gameid
-GROUP BY a.userid;
 "
 
 PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
@@ -109,9 +88,9 @@ CREATE INDEX game ON hands (game);
 "
 
 
-
+# Create some test users
 PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
-INSERT INTO user_details
+INSERT INTO users
     (username,email,language,location,country_code,current_skill)
 VALUES
  ('admin','fake@email.com','English','New York','US',$STARTING_SKILL)

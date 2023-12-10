@@ -122,7 +122,8 @@ EOF`
 check_install || exit 1
 check_db_initialized || exit 1
 check_db_valid || exit 1
-./countries_table_setup.sh || exit 1
-./languages_table_setup.sh || exit 1
-./pinochle_table_setup.sh || exit 1
+./sql_scripts/countries_table_setup.sh || exit 1
+./sql_scripts/languages_table_setup.sh || exit 1
+./sql_scripts/pinochle_table_setup.sh || exit 1
+./sql_scripts/define_views.sh || exit 1
 

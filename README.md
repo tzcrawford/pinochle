@@ -32,11 +32,12 @@ The software stack includes:
 2. Create a directory to host these files.
 3. Run `python -m venv venv && source ./venv/bin/activate` to create and enter a python virtual environment where python packages can be installed without affecting your system configuration.
 4. Clone and navigate into this repository.
-5. Run `pip install -r requirements.txt` to install the necessary python requirements.
-6. (?) Optionally install node.js to compile the svelte packages if you want make any frontend modifications.
-7. Copy `config.json.template` onto `config.json` and make any necessary modifications, especially if you want to run outside your local network.
-8. Install PostgreSQL
-9. Run the `./sql_setup.sh` wizard to configure PostgreSQL for the app.
+5. (?) Optionally install node.js to compile the svelte packages if you want make any frontend modifications.
+6. Copy `config.json.template` onto `config.json` and make any necessary modifications, especially if you want to run outside your local network.
+7. Install PostgreSQL
+8. Run the `./setup.sh` wizard to set up the app for running.
+    - Runs `pip install -r requirements.txt` to install the necessary python requirements.
+    - Configures PostgreSQL for the app.
 
 ### Running the server
 

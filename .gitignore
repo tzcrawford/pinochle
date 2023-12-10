@@ -6,4 +6,5 @@ public/build/
 *.bkp-[0-9]*
 config.json
 database/
-
+*/database/
+package-lock.json
