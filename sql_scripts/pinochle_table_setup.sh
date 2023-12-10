@@ -28,7 +28,9 @@ CREATE TABLE users (
     language VARCHAR(15) NULL,
     location VARCHAR(25) NULL,
     country_code CHAR(2) NULL,
-    current_skill INTEGER NULL
+    current_skill INTEGER NULL,
+    CONSTRAINT unique_username UNIQUE (username),
+    CONSTRAINT unique_email UNIQUE (email)
 );
 "
 
@@ -91,7 +93,7 @@ VALUES
  ('admin'      ,'fake@email.com' ,sha256('adminpass'::BYTEA),'English','New York'   ,'US',$STARTING_SKILL)
 ,('test_user_1','test1@email.com',sha256('u1pass'::BYTEA   ),'English','Los Angeles','US',$STARTING_SKILL)
 ,('test_user_2','test2@email.com',sha256('u2pass'::BYTEA   ),'English','Chicago'    ,'US',$STARTING_SKILL)
-,('test_user_3','test2@email.com',sha256('u3pass'::BYTEA   ),'German' ,'Hamburg'    ,'DE',$STARTING_SKILL);
+,('test_user_3','test3@email.com',sha256('u3pass'::BYTEA   ),'German' ,'Hamburg'    ,'DE',$STARTING_SKILL);
 "
 
 
