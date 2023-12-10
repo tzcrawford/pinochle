@@ -26,19 +26,23 @@ AS \$\$
     SELECT userid,username
     FROM users
     WHERE 
-        password = crypt(pass_attempt,password)
+        password = sha256(pass_attempt::BYTEA)
         AND username = username_attempt
-\$\$ LANGUAGE SQL
+\$\$ LANGUAGE SQL;
 
-CREATE OR REPLACE FUNCTION set_password(userid_entry INTEGER, old_password VARCHAR(25), new_password VARCHAR(25))
+CREATE OR REPLACE FUNCTION set_password(userid_entry INTEGER, old_password TEXT, new_password TEXT)
 RETURNS VOID AS \$\$
     UPDATE users
-    SET password = crypt(new_password, gen_salt('bf'))
+    SET password = sha256(new_password::BYTEA)
     WHERE 
         userid = userid_entry
-        AND (password = crypt(pass_attempt,password) OR password IS NULL);
-\$\$ LANGUAGE SQL
+        AND (
+            password = sha256(old_password::BYTEA)
+            OR old_password IS NULL
+        )
+\$\$ LANGUAGE SQL;
 SQL
 )
 
+source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "$heredoc_content"
 

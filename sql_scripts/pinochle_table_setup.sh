@@ -24,7 +24,7 @@ CREATE TABLE users (
     userid SERIAL PRIMARY KEY,
     username VARCHAR(25) NULL,
     email VARCHAR(40) NULL,
-    password TEXT NULL,
+    password BYTEA NULL,
     language VARCHAR(15) NULL,
     location VARCHAR(25) NULL,
     country_code CHAR(2) NULL,
@@ -88,10 +88,10 @@ source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "
 INSERT INTO users
     (username,email,password,language,location,country_code,current_skill)
 VALUES
- ('admin'      ,'fake@email.com' ,crypt('adminpass', gen_salt('bf')),'English','New York','US',$STARTING_SKILL)
-,('test_user_1','test1@email.com',crypt('u1pass'   , gen_salt('bf')),'English','Los Angeles','US',$STARTING_SKILL)
-,('test_user_2','test2@email.com',crypt('u2pass'   , gen_salt('bf')),'English','Chicago','US',$STARTING_SKILL)
-,('test_user_3','test2@email.com',crypt('u3pass'   , gen_salt('bf')),'German','Hamburg','DE',$STARTING_SKILL);
+ ('admin'      ,'fake@email.com' ,sha256('adminpass'::BYTEA),'English','New York'   ,'US',$STARTING_SKILL)
+,('test_user_1','test1@email.com',sha256('u1pass'::BYTEA   ),'English','Los Angeles','US',$STARTING_SKILL)
+,('test_user_2','test2@email.com',sha256('u2pass'::BYTEA   ),'English','Chicago'    ,'US',$STARTING_SKILL)
+,('test_user_3','test2@email.com',sha256('u3pass'::BYTEA   ),'German' ,'Hamburg'    ,'DE',$STARTING_SKILL);
 "
 
 
