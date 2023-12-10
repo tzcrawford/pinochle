@@ -8,3 +8,4 @@ config.json
 database/
 */database/
 package-lock.json
+*_password

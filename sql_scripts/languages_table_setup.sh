@@ -19,12 +19,6 @@ DB_LOCALE=$(jq -r '.postgresLocale' "$CONFIG_FILE" || echo "C.UTF-8")
 DB_ENCODING=$(jq -r '.postgresEncoding' "$CONFIG_FILE" || echo "UTF8")
 DB_LOCATION=$(jq -r '.postgresDBLocation' "$CONFIG_FILE")
 
-DB_PASS=`python << EOF
-import keyring
-print(keyring.get_password('$APP_NAME','$DB_USER'))
-EOF
-`
-
 heredoc_content=$(cat << SQL
 START TRANSACTION;
 SET standard_conforming_strings=off;
@@ -241,5 +235,5 @@ COMMIT;
 SQL
 )
 
-PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "$heredoc_content"
+source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "$heredoc_content"
 

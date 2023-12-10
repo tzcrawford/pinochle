@@ -16,16 +16,10 @@ DB_ENCODING=$(jq -r '.postgresEncoding' "$CONFIG_FILE" || echo "UTF8")
 DB_LOCATION=$(jq -r '.postgresDBLocation' "$CONFIG_FILE")
 STARTING_SKILL=$(jq -r '.starting_skill' "$CONFIG_FILE")
 
-DB_PASS=python << EOF
-import keyring
-print(keyring.get_password('$APP_NAME','$DB_USER'))
-EOF
-
-
-PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 DROP TABLE IF EXISTS users CASCADE;
 "
-PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 CREATE TABLE users (
     userid SERIAL PRIMARY KEY,
     username VARCHAR(25) NULL,
@@ -37,10 +31,10 @@ CREATE TABLE users (
 );
 "
 
-PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 DROP TABLE IF EXISTS games CASCADE;
 "
-PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 CREATE TABLE games (
     gameid SERIAL PRIMARY KEY,
     lobby_title VARCHAR(50) NULL,
@@ -56,10 +50,10 @@ CREATE TABLE games (
 );
 "
 
-PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 DROP TABLE IF EXISTS game_players CASCADE;
 "
-PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 CREATE TABLE game_players (
     gameid INTEGER NOT NULL,
     player INTEGER NOT NULL REFERENCES users (userid),
@@ -71,10 +65,10 @@ CREATE INDEX gameid ON game_players (gameid);
 CREATE INDEX player ON game_players (player);
 "
 
-PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 DROP TABLE IF EXISTS hands CASCADE;
 "
-PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 CREATE TABLE hands (
     handid SERIAL PRIMARY KEY,
     game INTEGER NOT NULL REFERENCES games(gameid),
@@ -89,7 +83,7 @@ CREATE INDEX game ON hands (game);
 
 
 # Create some test users
-PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 INSERT INTO users
     (username,email,language,location,country_code,current_skill)
 VALUES

@@ -16,16 +16,10 @@ DB_ENCODING=$(jq -r '.postgresEncoding' "$CONFIG_FILE" || echo "UTF8")
 DB_LOCATION=$(jq -r '.postgresDBLocation' "$CONFIG_FILE")
 STARTING_SKILL=$(jq -r '.starting_skill' "$CONFIG_FILE")
 
-DB_PASS=python << EOF
-import keyring
-print(keyring.get_password('$APP_NAME','$DB_USER'))
-EOF
-
-
-PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 DROP VIEW IF EXISTS users_vw;
 "
-PGPASSWORD="$DB_PASS" psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 CREATE VIEW users_vw AS
 SELECT 
     a.userid,a.username,a.language,a.location,a.country_code,a.current_skill
@@ -43,6 +37,9 @@ LEFT JOIN game_players AS b ON b.player = a.userid
 LEFT JOIN games AS c ON c.gameid = b.gameid
 LEFT JOIN hands AS d ON d.game = c.gameid
 LEFT JOIN countries AS e ON e.code= a.country_code
-GROUP BY a.userid;
+GROUP BY 
+    a.userid,a.username,a.language,a.location,a.country_code,a.current_skill
+    ,e.name
+    ,e.continent
 "
 

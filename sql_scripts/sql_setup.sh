@@ -88,6 +88,8 @@ SQL
 CREATE USER "$DB_USER" WITH PASSWORD '$random_password';
 CREATE DATABASE "$DB_NAME" OWNER "$DB_USER";
 SQL
+        # Save the newly generated password to a file that can be sourced.
+        echo "export PGPASSWORD=$random_password" > ./${DB_USER}_password && chmod 600 ./${DB_USER}_password
         psql -h localhost -p 5432 -U postgres << SQL
 GRANT ALL PRIVILEGES ON DATABASE "$DB_NAME" TO "$DB_USER";
 SQL
@@ -109,7 +111,7 @@ print(keyring.get_password('$APP_NAME','$DB_USER'))
 EOF`
     
     echo "Testing simple query SELECT 1..."
-    if ! PGPASSWORD="$pass" psql -h localhost -p "$DB_PORT" -d "$DB_NAME" -U "$DB_USER" -c "SELECT 1;" > /dev/null ; then
+    if ! source ./${DB_USER}_password && psql -h localhost -p "$DB_PORT" -d "$DB_NAME" -U "$DB_USER" -c "SELECT 1;" > /dev/null ; then
         echo "Query failed" >&2 
         return 1
     else

@@ -15,9 +15,4 @@ DB_LOCALE=$(jq -r '.postgresLocale' "$CONFIG_FILE" || echo "C.UTF-8")
 DB_ENCODING=$(jq -r '.postgresEncoding' "$CONFIG_FILE" || echo "UTF8")
 DB_LOCATION=$(jq -r '.postgresDBLocation' "$CONFIG_FILE")
 
-DB_PASS=`python << EOF
-import keyring
-print(keyring.get_password('$APP_NAME','$DB_USER'))
-EOF`
-
-PGPASSWORD="$DB_PASS" PAGER=$(which less) psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME"
+source ./${DB_USER}_password && PAGER=$(which less) psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME"
