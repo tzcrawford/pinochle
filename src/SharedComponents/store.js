@@ -8,3 +8,7 @@ export const authToken = writable(null) // Authentication token collected from f
 export const username = writable(null) // Username that was collected during auth process.
 export const userSkillLevel = writable(null)
 
+
+export const loginWindowEnabled = writable("false")
+export const newUserWindowEnabled = writable("false")
+

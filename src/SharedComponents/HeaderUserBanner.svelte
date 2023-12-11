@@ -7,6 +7,8 @@
 
     import { username } from './store.js'
     import { userSkillLevel } from './store.js'
+    import { loginWindowEnabled } from './store.js'
+    import { authToken } from './store.js'
     let userGamesPlayed
     let userWLRat
     let userLocation
@@ -15,10 +17,14 @@
 
 <div class="BannerBlock">
     {#key username, userSkillLevel, userGamesPlayed, userWLRat, userLocation, userLanguage}
-        {#if $username === null }
+        {#if $username === null && $authToken === null}
             <div class="slide-transition" 
                  in:slide={{ duration: 1000, delay: 100, axis: 'x' }} 
                  out:slide={{ duration: 100, delay:   0, axis: 'x' }}
+                 on:click|self={() => {
+                    loginWindowEnabled.set("true") ;
+                    }
+                 }
             >
                 Not logged in
             </div>

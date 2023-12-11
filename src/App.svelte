@@ -34,6 +34,7 @@ App : The main component that handles the overall structure of your app.
     import Footer from './SharedComponents/Footer.svelte'
 
     import Authentication from './Panels/Authentication/Authentication.svelte'
+    import Signup from './Panels/Authentication/Signup.svelte'
 
     /*** Get random number in header 
     let rand
