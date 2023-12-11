@@ -41,6 +41,21 @@ RETURNS VOID AS \$\$
             OR old_password IS NULL
         )
 \$\$ LANGUAGE SQL;
+
+CREATE OR REPLACE FUNCTION create_user(
+    username VARCHAR(25)
+    , email VARCHAR(40)
+    , language_code CHAR(2)
+    , location VARCHAR(25)
+    , country_code CHAR(2)
+    , default_skill INTEGER
+)
+RETURNS VOID AS \$\$
+    INSERT INTO users
+        (username, email, language_code, location, country_code, current_skill)
+    VALUES (username, email, language_code, location, country_code, default_skill)
+\$\$ LANGUAGE SQL;
+
 SQL
 )
 

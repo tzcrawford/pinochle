@@ -76,6 +76,57 @@ def login():
     else:
         return jsonify({'message': 'Invalid credentials'}), 401
 
+@app.route("/new_user", methods=['POST'])
+def new_user():
+    # Creates a new user in the database
+    try:
+        # Here we limit strings to X chars to prevent db insert truncation error
+        username = request.json.get('valNewUserUsername')[:25]
+        email    = request.json.get('valNewUserEmail')[:40]
+        language = request.json.get('valNewUserLanguage')[:40]
+        location = request.json.get('valNewUserLocation')[:25]
+        country  = request.json.get('valNewUserCountry')[:2]
+        password = request.json.get('valNewUserPassword')[:]
+    except Exception as e:
+        print("Exception in new user creation:", e)
+        return "false" # We cannot return native python True/False values
+
+    # Verify the username and password with a query to SQL.
+    con = sc.SQLConnection()
+    con.execute(f"\
+        EXEC create_user (\
+            '{username}','{email}','{language}','{country}',{config['staring_skill']})\
+    ")
+    userid_df = con.SELECT(f"\
+        SELECT userid FROM users WHERE username = '{username}' LIMIT 1 \
+    ")
+    if userid_df < 1:
+        print("Error in referencing newly created user.")
+        return "false"
+    else:
+        userid = userid_df.iloc[0]['userid']
+    con.select(f"\
+        EXEC set_password({userid},NULL,{password}) \
+    ")
+
+@app.route("/locations")
+def get_locations():
+    # Gets a list of locations from the database
+    con = sc.SQLConnection()
+    return con.select(f"\
+        SELECT a.*,b.name AS continent_long_name \
+        FROM countries AS a \
+        LEFT JOIN continents AS b ON b.code = a.continent \
+    ").json()
+
+@app.route("/languages")
+def get_languages():
+    # Gets a list of locations from the database
+    con = sc.SQLConnection()
+    return con.select(f"\
+        SELECT * FROM languages \
+    ").json()
+
 if __name__ == "__main__":
     app.run(debug=True)
 
