@@ -22,7 +22,7 @@ DROP VIEW IF EXISTS users_vw;
 source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 CREATE VIEW users_vw AS
 SELECT 
-    a.userid,a.username,a.language,a.location,a.country_code,a.current_skill
+    a.userid,a.username,a.language_code,a.location,a.country_code,a.current_skill
     ,e.name AS country_name
     ,e.continent
     ,COALESCE(SUM(c.gameid)      ,0) AS games_played
@@ -38,7 +38,7 @@ LEFT JOIN games AS c ON c.gameid = b.gameid
 LEFT JOIN hands AS d ON d.game = c.gameid
 LEFT JOIN countries AS e ON e.code= a.country_code
 GROUP BY 
-    a.userid,a.username,a.language,a.location,a.country_code,a.current_skill
+    a.userid,a.username,a.language_code,a.location,a.country_code,a.current_skill
     ,e.name
     ,e.continent
 "
