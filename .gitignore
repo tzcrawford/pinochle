@@ -9,3 +9,4 @@ database/
 */database/
 package-lock.json
 *_password
+test.py

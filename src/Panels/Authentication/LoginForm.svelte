@@ -84,6 +84,7 @@ async function onLoginSubmit(e) {
             type="text"
             id="inputLoginUsername"
             name="username"
+            placeholder="username"
             bind:value={valLoginUsername}
         />
     </div>
@@ -93,6 +94,7 @@ async function onLoginSubmit(e) {
             type="password"
             id="inputLoginPassword"
             name="password"
+            placeholder="password"
             bind:value={valLoginPassword}
         />
     </div>
@@ -110,6 +112,7 @@ async function onLoginSubmit(e) {
         {/if}
         </p>
     {/if}
+    </form>
     <br /><br />
     <div>
         Or
@@ -122,11 +125,9 @@ async function onLoginSubmit(e) {
             on:keydown={() => {}}
         >
         <!-- We add the keydown event with no effect to suppress an A11y warning -->
-            create a new user
+            create a new user.
         </span>
-        .
     </div>
-    </form>
 </div>
 
 <style>

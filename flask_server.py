@@ -2,6 +2,7 @@
 import random
 import os
 import json
+import pandas as pd
 from flask import Flask, request, jsonify, send_from_directory, send_file
 from flask_jwt_extended import JWTManager, create_access_token
 from flask_cors import CORS, cross_origin
@@ -109,23 +110,26 @@ def new_user():
         EXEC set_password({userid},NULL,{password}) \
     ")
 
-@app.route("/locations")
-def get_locations():
-    # Gets a list of locations from the database
+@app.route("/countries")
+def get_countries():
+    # Gets a list of countries from the database
     con = sc.SQLConnection()
-    return con.select(f"\
+    countryData = con.select(f"\
         SELECT a.*,b.name AS continent_long_name \
         FROM countries AS a \
         LEFT JOIN continents AS b ON b.code = a.continent \
-    ").json()
+    ").to_dict('records')
+    return jsonify(countryData), 200, {'Content-Type': 'application/json'}
 
-@app.route("/languages")
+@app.route("/languages", methods=['GET'])
 def get_languages():
-    # Gets a list of locations from the database
+    # Gets a list of languages from the database
     con = sc.SQLConnection()
-    return con.select(f"\
-        SELECT * FROM languages \
-    ").json()
+    langData = \
+        con.select(f"\
+            SELECT * FROM languages \
+        ").to_dict('records')
+    return jsonify(langData), 200, {'Content-Type': 'application/json'}
 
 if __name__ == "__main__":
     app.run(debug=True)

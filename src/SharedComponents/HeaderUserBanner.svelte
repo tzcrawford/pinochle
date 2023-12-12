@@ -25,8 +25,9 @@
                     loginWindowEnabled.set("true") ;
                     }
                  }
+                 on:keypress={() => {}}
             >
-                Not logged in
+                Log In
             </div>
         {:else}
             <div class="slide-transition" 
