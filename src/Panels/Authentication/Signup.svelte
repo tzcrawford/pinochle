@@ -12,6 +12,7 @@ Signup : Queries database to create new user.
 <script lang="ts">
 import { onMount } from 'svelte'; 
 import { authToken, username } from '../../SharedComponents/store.js'
+import { loginWindowEnabled, newUserWindowEnabled } from '../../SharedComponents/store.js'
 import { isRequiredFieldValid } from '../../SharedComponents/BoilerplateFunctions.js'
 
 let errInputFieldsMissing = false
@@ -93,13 +94,10 @@ async function onCreateUserSubmit(e) {
             errInputFieldsRequestFail = false
             errInputFieldsIncorrect = false
             console.log("User Creation Successful")
-            authToken.set(createUserPostResponse.access_token) // Make sure not to do $authtoken.se        t with a dollar sign
-            username.set(createUserPostResponse.username) // Make sure not to do $authtoken.set wit        h a dollar sign
-            console.log("Auth token saved to Svelte store")
-            console.log("$Username and $authToken set")
             newUserWindowEnabled.set("false")
+            loginWindowEnabled.set("true")
             return true
-        } else if (createUserFetchResult.status === 401){ // UN/PW probably didn't match.
+        } else if (createUserFetchResult.status === 403){
             errInputFieldsIncorrect = true
             errInputFieldsRequestFail = false
             return false
@@ -208,10 +206,13 @@ Enter the details for your new user below:
 
 <button type="btnSignupSubmit">Submit</button>
 {#if errInputFieldsMissing}
-    <p class="error">Username/Password Required.</p>
+    <p class="error">Username, Password, and Email Required.</p>
 {/if}
 {#if errInputFieldsIncorrect}
-    <p class="error">Invalid Username/Password Entry.</p>
+    <p class="error">Invalid Field Entry. Perhaps the supplied username or email already has an account associated?.</p>
+    {#if createUserFetchResult.message }
+        <p class="error">Error message: {createUserFetchResult.message}</p>
+    {/if}
 {/if}
 {#if errInputFieldsRequestFail}
     <p class="error">Failed to POST Create User Request to Server.

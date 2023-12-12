@@ -52,11 +52,10 @@ async function onLoginSubmit(e) {
             errInputLoginRequestFail = false
             errInputLoginIncorrect = false
             console.log("Login Successful")
-            authToken.set(loginPostResponse.access_token) // Make sure not to do $authtoken.se    t with a dollar sign
-            username.set(loginPostResponse.username) // Make sure not to do $authtoken.set wit    h a dollar sign
-            console.log("Auth token saved to Svelte store")
-            console.log("$Username and $authToken set")
-            //loginWindowEnabled.set("false")
+            authToken.set(loginPostResponse.access_token) // Make sure not to do $authtoken.set with a dollar sign
+            username.set(loginPostResponse.username)
+            //console.log("Auth token saved to Svelte store")
+            loginWindowEnabled.set("false")
             return true
         } else if (loginFetchResult.status === 401){ // UN/PW probably didn't match.
             errInputLoginIncorrect = true
@@ -113,7 +112,7 @@ async function onLoginSubmit(e) {
         </p>
     {/if}
     </form>
-    <br /><br />
+    <br />
     <div>
         Or
         <span class="createUserLink"

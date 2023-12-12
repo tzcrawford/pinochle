@@ -81,34 +81,49 @@ def login():
 def new_user():
     # Creates a new user in the database
     try:
-        # Here we limit strings to X chars to prevent db insert truncation error
-        username = request.json.get('valNewUserUsername')[:25]
-        email    = request.json.get('valNewUserEmail')[:40]
-        language = request.json.get('valNewUserLanguage')[:40]
-        location = request.json.get('valNewUserLocation')[:25]
-        country  = request.json.get('valNewUserCountry')[:2]
-        password = request.json.get('valNewUserPassword')[:]
+        # Collect appropriate values from the form
+        field_vals=dict()
+        fields = \
+            {'Username': 25, 'Email': 40,'Language':2,'Location': 25,'Country': 2,'Password': None}
+        for key,val in fields.items():
+            field_vals[key] = request.json.get('valNewUser'+key)
+            if field_vals[key] is None or field_vals[key].strip() == "":
+                field_vals[key] = 'NULL'
+            else:
+                if val: # Truncate the field entry if appropriate to prevent db insert truncation err
+                    field_vals[key] = field_vals[key][:val]
+
+                field_vals[key] = "'" + field_vals[key].strip() + "'"
+        # Perform the SQL insertion
+        con = sc.SQLConnection()
+        con.execute(f"\
+            SELECT * FROM \
+            create_user(\
+                {field_vals['Username']},{field_vals['Email']},{field_vals['Language']},{field_vals['Location']},{field_vals['Country']},{str(config['starting_skill'])})\
+        ")
+        
+        # Verify the insertion worked correctly and get the userid of the newly created user.
+        userid_df = con.select(f"\
+            SELECT userid FROM users WHERE username = {field_vals['Username']} LIMIT 1 \
+        ")
+        if len(userid_df) < 1:
+            raise Exception("Error in referencing newly created user.")
+        else:
+            userid = userid_df.iloc[0]['userid']
+            print(f"User creation successful for userid: {str(userid)}")
+        con.execute(f"\
+            SELECT * FROM \
+            set_password({str(userid)},NULL,{field_vals['Password']}) \
+        ")
+        print(f"User password set for userid: {str(userid)}")
+        return "true"
     except Exception as e:
         print("Exception in new user creation:", e)
-        return "false" # We cannot return native python True/False values
+        if "duplicate key value violates unique constraint \"unique_username\"" in str(e):
+            return "false", 403
+        else:
+            return "false", 500
 
-    # Verify the username and password with a query to SQL.
-    con = sc.SQLConnection()
-    con.execute(f"\
-        EXEC create_user (\
-            '{username}','{email}','{language}','{country}',{config['staring_skill']})\
-    ")
-    userid_df = con.SELECT(f"\
-        SELECT userid FROM users WHERE username = '{username}' LIMIT 1 \
-    ")
-    if userid_df < 1:
-        print("Error in referencing newly created user.")
-        return "false"
-    else:
-        userid = userid_df.iloc[0]['userid']
-    con.select(f"\
-        EXEC set_password({userid},NULL,{password}) \
-    ")
 
 @app.route("/countries")
 def get_countries():
