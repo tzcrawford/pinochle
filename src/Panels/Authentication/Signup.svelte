@@ -113,6 +113,13 @@ async function onCreateUserSubmit(e) {
     finally {
     }
 }
+
+function restrictInputCharacters(event) {
+    let fieldValue = event.target.value.replace(/'/g, ''); // Disallow single quotes
+    fieldValue =             fieldValue.replace(/"/g, ''); // Disallow double quotes
+    return fieldValue
+}
+
 </script>
 
 
@@ -135,6 +142,7 @@ Enter the details for your new user below:
         name="username"
         placeholder="username"
         bind:value={valNewUserUsername}
+        on:input={ (event) => {valNewUserUsername = restrictInputCharacters(event)}}
     />
 </div>
 <div>
@@ -145,6 +153,7 @@ Enter the details for your new user below:
         name="password"
         placeholder="password"
         bind:value={valNewUserPassword}
+        on:input={ (event) => {valNewUserPassword = restrictInputCharacters(event)}}
     />
 </div>
 <div>
@@ -155,6 +164,7 @@ Enter the details for your new user below:
         name="email"
         placeholder="email"
         bind:value={valNewUserEmail}
+        on:input={ (event) => {valNewUserEmail = restrictInputCharacters(event)}}
     />
 </div>
 <div>
@@ -165,6 +175,7 @@ Enter the details for your new user below:
         name="location"
         placeholder="location"
         bind:value={valNewUserLocation}
+        on:input={ (event) => {valNewUserLocation = restrictInputCharacters(event)}}
     />
 </div>
 <div>
@@ -175,7 +186,7 @@ Enter the details for your new user below:
         name="country"
         placeholder="country"
         bind:value={valNewUserCountry}
-        on:change={ (event) => {}}
+        on:input={ (event) => {valNewUserCountry = restrictInputCharacters(event)}}
     >
             {#each countryData as countryItem (countryItem["code"])}
                 <option value={countryItem["code"]}>{countryItem["name"]}</option>
@@ -193,7 +204,7 @@ Enter the details for your new user below:
             name="language"
             placeholder="language"
             bind:value={valNewUserLanguage}
-            on:change={ (event) => {}}
+            on:input={ (event) => {valNewUserLanguage = restrictInputCharacters(event)}}
         >
             {#each languageData as langItem (langItem["ISO-639-1"])}
                 <option value={langItem["ISO-639-1"]}>{langItem["language"]}</option>
