@@ -60,12 +60,6 @@ def login():
 
     # Verify the username and password with a query to SQL.
     con = sc.SQLConnection()
-    #userID = con.execute(f"\
-    #    SELECT userid \
-    #    FROM users \
-    #    WHERE username = {username} \
-    #    LIMIT 1 \
-    #")
     pass_auth_df = con.select(f"\
         SELECT pass_auth('{username}', '{password}') \
     ")
@@ -145,6 +139,18 @@ def get_languages():
             SELECT * FROM languages \
         ").to_dict('records')
     return jsonify(langData), 200, {'Content-Type': 'application/json'}
+
+@app.route("/user_stats", methods=['POST'])
+def get_user_stats():
+    username = request.json.get('username')
+    con = sc.SQLConnection()
+    langData = \
+        con.select(f"\
+            SELECT * FROM users_vw WHERE username = '{username}'\
+        ").to_dict('records')
+    return jsonify(langData), 200, {'Content-Type': 'application/json'}
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

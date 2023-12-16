@@ -25,6 +25,7 @@ SELECT
     a.userid,a.username,a.language_code,a.location,a.country_code,a.current_skill
     ,e.name AS country_name
     ,e.continent
+    ,f.language
     ,COALESCE(SUM(c.gameid)      ,0) AS games_played
     ,COALESCE(SUM(b.won::INTEGER),0) AS games_won
     ,MIN(c.time_created) AS first_game
@@ -37,9 +38,11 @@ LEFT JOIN game_players AS b ON b.player = a.userid
 LEFT JOIN games AS c ON c.gameid = b.gameid
 LEFT JOIN hands AS d ON d.game = c.gameid
 LEFT JOIN countries AS e ON e.code= a.country_code
+LEFT JOIN languages AS f ON f.\"ISO-639-1\" = a.language_code
 GROUP BY 
     a.userid,a.username,a.language_code,a.location,a.country_code,a.current_skill
     ,e.name
     ,e.continent
+    ,f.language
 "
 
