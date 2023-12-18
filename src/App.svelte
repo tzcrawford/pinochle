@@ -8,8 +8,6 @@ App : The main component that handles the overall structure of your app.
     import { onMount } from 'svelte'
     import { writable } from 'svelte/store'
 
-    import { userSkillLevel, config } from './SharedComponents/store.js'
-
     // Collect user config
     import { fetchConfig } from './SharedComponents/configService.js'
     let configResponse
@@ -24,10 +22,8 @@ App : The main component that handles the overall structure of your app.
         console.error("Error fetching config:", error.message);
     }
     });
-
-
-    //import PopUpWindow from './SharedComponents/PopUpWindow.svelte'
-
+    
+    import { userSkillLevel, config } from './SharedComponents/store.js'
 
     import Header from './SharedComponents/Header.svelte'
     import HeaderUserBanner from './SharedComponents/HeaderUserBanner.svelte'
@@ -35,17 +31,8 @@ App : The main component that handles the overall structure of your app.
 
     import Authentication from './Panels/Authentication/Authentication.svelte'
     import Signup from './Panels/Authentication/Signup.svelte'
-
-    /*** Get random number in header 
-    let rand
-    function getRand() {
-        fetch("./rand")
-        .then(d => d.text())
-        .then(d => (rand = d));
-    }
-    getRand();
-    $: userSkillLevel.set(rand)
-    ***/
+    
+    import DropShadowTile from './SharedComponents/DropShadowTile.svelte'
 
 </script>
 
@@ -53,9 +40,9 @@ App : The main component that handles the overall structure of your app.
     {#if $config !== null}
         <Header><HeaderUserBanner /></Header>
         <Authentication />
-        <h2>Your number is {1}!</h2>
-        <button on:click={() => {}}>Get a random number</button>
-        <br /><br /><br /><br />
+        <div style="display: flex; justify-content: center;">
+            <DropShadowTile additionalStyle="width: 200px;margin: 1em">Test shadow tile</DropShadowTile>
+        </div>
         <Footer />
     {:else}
         <p>Loading</p>
