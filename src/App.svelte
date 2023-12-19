@@ -32,7 +32,7 @@ App : The main component that handles the overall structure of your app.
     import Authentication from './Panels/Authentication/Authentication.svelte'
     import Signup from './Panels/Authentication/Signup.svelte'
     
-    import DropShadowTile from './SharedComponents/DropShadowTile.svelte'
+    import Card from './Panels/Game/Card.svelte'
 
 </script>
 
@@ -41,7 +41,16 @@ App : The main component that handles the overall structure of your app.
         <Header><HeaderUserBanner /></Header>
         <Authentication />
         <div style="display: flex; justify-content: center;">
-            <DropShadowTile additionalStyle="width: 200px;margin: 1em">Test shadow tile</DropShadowTile>
+            <Card />
+        </div>
+        <div style="display: flex; justify-content: center;transform:rotate(90deg);">
+            <Card />
+        </div>
+        <div style="display: flex; justify-content: center;transform:rotate(270deg);">
+            <Card />
+        </div>
+        <div style="display: flex; justify-content: center;transform:rotate(45deg);">
+            <Card />
         </div>
         <Footer />
     {:else}
