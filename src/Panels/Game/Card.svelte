@@ -4,10 +4,12 @@ Card :
 -->
 
 <script lang="ts">
+    import HighlightBox from '../../SharedComponents/HighlightBox.svelte'
     import DropShadowTile from '../../SharedComponents/DropShadowTile.svelte'
     export let suit
     export let rank
     export let cardText
+    export let highlightable = false
     if(!cardText) {
         cardText=suit+rank
     } else {
@@ -33,20 +35,23 @@ Card :
         cardText="UNK"
         cardColor="blue"
     }
+
 </script>
 
 <DropShadowTile 
     additionalStyle="max-width:7em;width:7em;max-height:12em;height:12em;margin:0;padding:0px">
-<div class="top-char-cont">
-        <div class="top-char-text" style="color: {cardColor}" >
-            {cardText}
+    <HighlightBox enabled={highlightable} >
+        <div class="top-char-cont">
+            <div class="top-char-text" style="color: {cardColor}" >
+                {cardText}
+            </div>
         </div>
-    </div>
-    <div class="bottom-char-cont">
-        <div class="bottom-char-text" style="color: {cardColor}" >
-            {cardText}
+        <div class="bottom-char-cont">
+            <div class="bottom-char-text" style="color: {cardColor}" >
+                {cardText}
+            </div>
         </div>
-    </div>
+    </HighlightBox>
 </DropShadowTile>
 
 <style>

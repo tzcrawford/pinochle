@@ -16,6 +16,10 @@
     "titleBold": true,
     "titleAdditionalStyle": ""
     },
+"cardStyle": {
+    "backColor": "white",
+    "highlightColor": "#fdfcd0"
+},
 "JWT_secret_key": null,
 "starting_skill": 1600
 }

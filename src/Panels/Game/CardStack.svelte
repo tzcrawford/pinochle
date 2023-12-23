@@ -12,7 +12,8 @@ CardStack: Renders a stack of cards, like in a hand or group of melt
     /* 0 would be the cards touching end-to-end, we set negative to shift left */
     export let overlap = "-4em";
 
-    export let cards = ["cA", "dJ", "sQ", "w8"]
+    export let cards = ["cA", "dJ"]//, "sQ", "w8"]
+    export let highlightable = {"cA": false, "dJ": true}//, "sQ":true}
     /**
     NOTE For the cards definition, we use:
     c for clubs, d for diamonds, s for spades, and h for hearts
@@ -24,12 +25,17 @@ CardStack: Renders a stack of cards, like in a hand or group of melt
 <div class="horizontal-stack" style="z-index: 0" >
     {#each cards as card, i}
         {#if card.length === 2}
-            <div class="item" 
+            <div class="card-item" 
                 style="{additionalStyle}; z-index: ${1+i}em; margin-right: {overlap};" >
-                <Card suit={card[0]} rank={card[1]} />
+                {#if card in highlightable && highlightable[card] === true }
+                      {console.log(card, "is highlightable")}
+                    <Card suit={card[0]} rank={card[1]} highlightable={highlightable[card]} />
+                {:else}
+                    <Card suit={card[0]} rank={card[1]} />
+                {/if}
             </div>
         {:else}
-            <div class="item" 
+            <div class="card-item" 
                 style="{additionalStyle}; z-index: ${1+i}em; margin-right: {overlap};" >
                 <Card suit="j" rank="7" />
             </div>
@@ -44,7 +50,7 @@ CardStack: Renders a stack of cards, like in a hand or group of melt
     justify-content: space-between;
     width: 0em;
 }
-.item {
+.card-item {
     /* margin-right: overlap; Svelte does not support setting this dynamically, it must be declared on the object style at runtime.*/
     margin-top: 0;
     margin-bottom: 0;
@@ -55,8 +61,8 @@ CardStack: Renders a stack of cards, like in a hand or group of melt
     /* This may help with opaqueness, but may also affect rounded corners. */
     /*background-color: rgba(255, 255, 255, 1); */ 
 }
-/* Remove the margin from the last item to prevent extra spacing (Applies automatically)*/
-.item:last-child {
+/* Remove the margin from the last card to prevent extra spacing (Applies automatically)*/
+.card-item:last-child {
     margin-right: 0;
     /*background-color: rgba(255, 255, 255, 1) */
 }
