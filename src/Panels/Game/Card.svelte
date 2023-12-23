@@ -1,25 +1,50 @@
 <!--
 Card :
-    * Rank and suit, must include symbol
-    * Highlights on hover if can be selected
-    * Rotation (due to who is holding it
+    * Rank and suit, must include unicode symbol
 -->
 
 <script lang="ts">
     import DropShadowTile from '../../SharedComponents/DropShadowTile.svelte'
-    let test_char="♠️A"
+    export let suit
+    export let rank
+    export let cardText
+    if(!cardText) {
+        cardText=suit+rank
+    } else {
+        if(cardText.length === 2 && ((!suit) || (!rank)))
+        suit = cardText[0]
+        rank = cardText[1]
+    }
+
+    let cardColor="green"
+    if(suit == "s") {
+        cardColor = "black"
+        cardText = "♠️" + rank
+    } else if(suit == "c") {
+        cardColor = "black"
+        cardText = "♣️" + rank
+    } else if(suit == "d") {
+        cardColor = "red"
+        cardText = "♦️" + rank
+    } else if(suit == "h") {
+        cardColor = "red"
+        cardText = "♥️" + rank
+    } else {
+        cardText="UNK"
+        cardColor="blue"
+    }
 </script>
 
 <DropShadowTile 
     additionalStyle="max-width:7em;width:7em;max-height:12em;height:12em;margin:0;padding:0px">
 <div class="top-char-cont">
-        <div class="top-char-text">
-            {test_char}
+        <div class="top-char-text" style="color: {cardColor}" >
+            {cardText}
         </div>
     </div>
     <div class="bottom-char-cont">
-        <div class="bottom-char-text">
-            {test_char}
+        <div class="bottom-char-text" style="color: {cardColor}" >
+            {cardText}
         </div>
     </div>
 </DropShadowTile>
