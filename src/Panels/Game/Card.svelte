@@ -11,8 +11,8 @@ Card :
 </script>
 
 <DropShadowTile 
-    additionalStyle="max-width:7em;width:7em;max-height:12em;height:12em;margin:1em;padding:0px;overflow:true">
-    <div class="top-char-cont">
+    additionalStyle="max-width:7em;width:7em;max-height:12em;height:12em;margin:0;padding:0px">
+<div class="top-char-cont">
         <div class="top-char-text">
             {test_char}
         </div>
@@ -25,7 +25,6 @@ Card :
 </DropShadowTile>
 
 <style>
-
 .top-char-cont {
     text-align:left;
     margin: 0px;

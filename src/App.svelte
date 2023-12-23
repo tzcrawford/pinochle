@@ -32,7 +32,7 @@ App : The main component that handles the overall structure of your app.
     import Authentication from './Panels/Authentication/Authentication.svelte'
     import Signup from './Panels/Authentication/Signup.svelte'
     
-    import Card from './Panels/Game/Card.svelte'
+    import CardStack from './Panels/Game/CardStack.svelte'
 
 </script>
 
@@ -40,17 +40,20 @@ App : The main component that handles the overall structure of your app.
     {#if $config !== null}
         <Header><HeaderUserBanner /></Header>
         <Authentication />
-        <div style="display: flex; justify-content: center;">
-            <Card />
-        </div>
-        <div style="display: flex; justify-content: center;transform:rotate(90deg);">
-            <Card />
-        </div>
-        <div style="display: flex; justify-content: center;transform:rotate(270deg);">
-            <Card />
-        </div>
-        <div style="display: flex; justify-content: center;transform:rotate(45deg);">
-            <Card />
+        <div style="margin:2em">
+            <div style="display: flex; justify-content: center;">
+                <CardStack />
+            </div>
+            <div style="display: flex; justify-content: center;transform:rotate(90deg);">
+                <CardStack />
+            </div>
+            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+            <div style="display: flex; justify-content: center;transform:rotate(270deg);">
+                <CardStack />
+            </div>
+            <div style="display: flex; justify-content: center;transform:rotate(45deg);">
+                <CardStack />
+            </div>
         </div>
         <Footer />
     {:else}
