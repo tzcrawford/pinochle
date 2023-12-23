@@ -6,10 +6,12 @@ Card :
 <script lang="ts">
     import HighlightBox from '../../SharedComponents/HighlightBox.svelte'
     import DropShadowTile from '../../SharedComponents/DropShadowTile.svelte'
+    export let cardAdditionalStyle = ""
     export let suit
     export let rank
     export let cardText
     export let highlightable = false
+    export let highlightPositionStyle = ""
     if(!cardText) {
         cardText=suit+rank
     } else {
@@ -39,8 +41,8 @@ Card :
 </script>
 
 <DropShadowTile 
-    additionalStyle="max-width:7em;width:7em;max-height:12em;height:12em;margin:0;padding:0px">
-    <HighlightBox enabled={highlightable} >
+    additionalStyle="max-width:7em;width:7em;max-height:12em;height:12em;margin:0;padding:0px;{cardAdditionalStyle}">
+        <HighlightBox enabled={highlightable} highlightPositionStyle={highlightPositionStyle}>
         <div class="top-char-cont">
             <div class="top-char-text" style="color: {cardColor}" >
                 {cardText}
@@ -57,7 +59,7 @@ Card :
 <style>
 .top-char-cont {
     text-align:left;
-    margin: 0px;
+    margin: 0;
     padding: 0.333em;
     max-height: 5.333em;
     min-height: 5.333em;
@@ -69,7 +71,7 @@ Card :
 }
 .bottom-char-cont {
     text-align: left;
-    margin: 0px;
+    margin: 0;
     padding: 0.333em;
     max-height: 5.333em;
     min-height: 5.333em;

@@ -6,7 +6,7 @@ CardStack: Renders a stack of cards, like in a hand or group of melt
 
 <script lang="ts">
     import Card from './Card.svelte'
-    let additionalStyle="max-width:7em;width:7em;" // Needs to match width of card
+    export let additionalStyle="max-width:7em;width:7em;" // Needs to match width of card
 
     // Default overlap distance of the cards, should compare to the default width (currently 7)
     /* 0 would be the cards touching end-to-end, we set negative to shift left */
@@ -22,21 +22,26 @@ CardStack: Renders a stack of cards, like in a hand or group of melt
     ***/
 </script>
 
-<div class="horizontal-stack" style="z-index: 0" >
+<div class="horizontal-stack" style="z-index: 0;" >
     {#each cards as card, i}
         {#if card.length === 2}
             <div class="card-item" 
-                style="{additionalStyle}; z-index: ${1+i}em; margin-right: {overlap};" >
+                style="{additionalStyle}; z-index: {1+2*i}; margin-right: {overlap};" >
+                <!-- We use 1+2*i for z-index because: 1 for background, 2*i for card height in stack, multiplication by two to leave space for highlight layers. -->
                 {#if card in highlightable && highlightable[card] === true }
-                      {console.log(card, "is highlightable")}
-                    <Card suit={card[0]} rank={card[1]} highlightable={highlightable[card]} />
+                    <!--{console.log(card, "is highlightable")}-->
+                    <Card suit={card[0]} rank={card[1]} highlightable={highlightable[card]} 
+                          highlightPositionStyle="z-index: {1+2*i+1}; margin-right: {overlap}; margin-top:-1em; {additionalStyle};"
+                          cardAdditionalStyle="margin-top:-1em;"
+                    />
+                    <!-- We use 1+2*i+1 for z-index because: 1 for background, 2*i for card, another 1 to sit above card-->
                 {:else}
                     <Card suit={card[0]} rank={card[1]} />
                 {/if}
             </div>
         {:else}
             <div class="card-item" 
-                style="{additionalStyle}; z-index: ${1+i}em; margin-right: {overlap};" >
+                style="{additionalStyle}; z-index: {1+i}; margin-right: {overlap};" >
                 <Card suit="j" rank="7" />
             </div>
         {/if}
@@ -65,5 +70,6 @@ CardStack: Renders a stack of cards, like in a hand or group of melt
 .card-item:last-child {
     margin-right: 0;
     /*background-color: rgba(255, 255, 255, 1) */
+    position:relative;
 }
 </style>
