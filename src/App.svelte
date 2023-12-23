@@ -52,7 +52,7 @@ App : The main component that handles the overall structure of your app.
                 <CardStack />
             </div>
             <div style="display: flex; justify-content: center;transform:rotate(45deg);">
-                <CardStack />
+                <CardStack overlap="-6em" />
             </div>
         </div>
         <Footer />
