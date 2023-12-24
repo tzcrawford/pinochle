@@ -29,10 +29,9 @@ CardStack: Renders a stack of cards, like in a hand or group of melt
                 style="{additionalStyle}; z-index: {1+2*i}; margin-right: {overlap};" >
                 <!-- We use 1+2*i for z-index because: 1 for background, 2*i for card height in stack, multiplication by two to leave space for highlight layers. -->
                 {#if card in highlightable && highlightable[card] === true }
-                    <!--{console.log(card, "is highlightable")}-->
                     <Card suit={card[0]} rank={card[1]} highlightable={highlightable[card]} 
                           highlightPositionStyle="z-index: {1+2*i+1}; margin-right: {overlap}; margin-top:-1em; {additionalStyle};"
-                          cardAdditionalStyle="margin-top:-1em;"
+                          cardAdditionalStyle=""
                     />
                     <!-- We use 1+2*i+1 for z-index because: 1 for background, 2*i for card, another 1 to sit above card-->
                 {:else}

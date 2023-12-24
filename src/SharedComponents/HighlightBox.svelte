@@ -1,31 +1,43 @@
 <script lang="ts">
     import { config } from './store.js'
+    export let highlightPositionStyle
+    let highlightColor
+    
     export let enabled = false
-    export let highlightPositionStyle = "z-index: 0"
-    let highlightColor = "rgba(0,0,0,0)"
-    highlightColor = $config.cardStyle.highlightColor
+    setDisabled() // set default behavior
+    $: ( () => { // This will make handleEnabled when the reactive value enabled changes
+        (enabled); // enabled may not actually used here but s present a function ran. Needed to be reactive on enabled value.
+        //console.log("enabled val:",enabled)
+        handleEnabled()
+        } 
+    ) ()
 
-    function handleMouseHover() {
-        // For handling how the card is highlighted during mouse hover
-        console.log(highlightable)
-        highlightColor = $config.cardStyle.highlightColor
+    function setDisabled() {
+        highlightPositionStyle = "z-index: 0"
+        highlightColor = "rgba(0,0,0,0)"
+    }
+
+    function handleEnabled() {
+        // For handling how the card is highlighted
+        //console.log("handleEnabled is running")
+        if(enabled) {
+            //console.log("setting highlightColor")
+            highlightColor = $config.cardStyle.highlightColor
+        } else {
+            setDisabled()
+        }
+
     }
 </script>
 
-{#if enabled}
-    <div class="highlight-box" 
-        style="background-color: {highlightColor};{highlightPositionStyle}">
-        <!-- We use a high z-index to make sure this goes on top of the CardStack -->
-        <slot />
-    </div>
-{:else}
+<div class="highlight-box" 
+     style="background-color: {highlightColor};{highlightPositionStyle}">
     <slot />
-{/if}
+</div>
 
 <style>
 .highlight-box {
-    /* The user should get a pointer mouse symbol only when the card is playble (highlightable) */
+    position: relative;
     cursor: pointer;
-    position:relative;
 }
 </style>

@@ -11,7 +11,9 @@ Card :
     export let rank
     export let cardText
     export let highlightable = false
+    let highlightBoxEnabled = false
     export let highlightPositionStyle = ""
+    export let cardHighlightedStyle = ""
     if(!cardText) {
         cardText=suit+rank
     } else {
@@ -38,23 +40,44 @@ Card :
         cardColor="blue"
     }
 
+    function handleMouseOver() {
+        //console.log("running mouseover for:", cardText)
+        if(highlightable) {
+            //console.log("enabling HighlightBox for:", cardText)
+            highlightBoxEnabled = true
+            cardHighlightedStyle="margin-top:-1em;"
+        }
+    }
+    function handleMouseOut() {
+        highlightBoxEnabled = false
+        cardHighlightedStyle=""
+    }
+
 </script>
 
-<DropShadowTile 
-    additionalStyle="max-width:7em;width:7em;max-height:12em;height:12em;margin:0;padding:0px;{cardAdditionalStyle}">
-        <HighlightBox enabled={highlightable} highlightPositionStyle={highlightPositionStyle}>
-        <div class="top-char-cont">
-            <div class="top-char-text" style="color: {cardColor}" >
-                {cardText}
+<div class="card"
+    on:mouseover={handleMouseOver}
+    on:mouseout={handleMouseOut}
+    on:focus={() => {}}
+    on:blur={() => {}}
+> <!-- A container for the whole card -->
+    <DropShadowTile 
+        additionalStyle="max-width:7em;width:7em;max-height:12em;height:12em;margin:0;padding:0px;{cardHighlightedStyle};{cardAdditionalStyle}"
+    >
+            <HighlightBox enabled={highlightBoxEnabled} highlightPositionStyle={highlightPositionStyle}>
+            <div class="top-char-cont">
+                <div class="top-char-text" style="color: {cardColor}" >
+                    {cardText}
+                </div>
             </div>
-        </div>
-        <div class="bottom-char-cont">
-            <div class="bottom-char-text" style="color: {cardColor}" >
-                {cardText}
+            <div class="bottom-char-cont">
+                <div class="bottom-char-text" style="color: {cardColor}" >
+                    {cardText}
+                </div>
             </div>
-        </div>
-    </HighlightBox>
-</DropShadowTile>
+        </HighlightBox>
+    </DropShadowTile>
+</div>
 
 <style>
 .top-char-cont {
