@@ -6,6 +6,14 @@ Card :
 <script lang="ts">
     import { config } from '../SharedComponents/store.js'
     let backgroundColor = $config.cardStyle.backColor
+    let clubsColor      = $config.cardStyle.clubsColor
+    let spadesColor     = $config.cardStyle.spadesColor
+    let heartsColor     = $config.cardStyle.heartsColor
+    let diamondsColor   = $config.cardStyle.diamondsColor
+    let clubsSymbol     = $config.cardStyle.clubsSymbol
+    let spadesSymbol    = $config.cardStyle.spadesSymbol
+    let heartsSymbol   = $config.cardStyle.heartsSymbol
+    let diamondsSymbol  = $config.cardStyle.diamondsSymbol
 
     import HighlightBox from '../SharedComponents/HighlightBox.svelte'
     import DropShadowTile from '../SharedComponents/DropShadowTile.svelte'
@@ -26,18 +34,18 @@ Card :
     }
 
     let cardColor="green"
-    if(suit == "s") {
-        cardColor = "black"
-        cardText = "♠️" + rank
-    } else if(suit == "c") {
-        cardColor = "black"
-        cardText = "♣️" + rank
-    } else if(suit == "d") {
-        cardColor = "red"
-        cardText = "♦️" + rank
+    if(suit == "c") {
+        cardColor = clubsColor
+        cardText = String(clubsSymbol) + rank
+    } else if(suit == "s") {
+        cardColor = spadesColor
+        cardText = String(spadesSymbol) + rank
     } else if(suit == "h") {
-        cardColor = "red"
-        cardText = "♥️" + rank
+        cardColor = heartsColor
+        cardText = String(heartsSymbol) + rank
+    } else if(suit == "d") {
+        cardColor = diamondsColor
+        cardText = String(diamondsSymbol) + rank
     } else {
         cardText="UNK"
         cardColor="blue"

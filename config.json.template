@@ -18,6 +18,14 @@
     },
 "cardStyle": {
     "backColor": "#fcfaf5",
+    "clubsColor": "black",
+    "spadesColor": "black",
+    "heartsColor": "red",
+    "diamondsColor": "red",
+    "clubsSymbol": "\u2663",
+    "spadesSymbol": "\u2660",
+    "heartsSymbol": "\u2665",
+    "diamondsSymbol": "\u2666",
     "highlightColor": "rgba(253,252,208,0.4)"
 },
 "JWT_secret_key": null,

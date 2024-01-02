@@ -12,8 +12,9 @@ CardStack: Renders a stack of cards, like in a hand or group of melt
     /* 0 would be the cards touching end-to-end, we set negative to shift left */
     export let overlap = "-4em";
 
-    export let cards = ["cA", "dJ"]//, "sQ", "w8"]
-    export let highlightable = {"cA": false, "dJ": true}//, "sQ":true}
+    export let cards = ["cA", "dJ", "sQ", "w8", "hK"]
+    //export let highlightable = {"cA": false, "dJ": true}//, "sQ":true}
+    export let highlightable = {"cA": true, "dJ": true, "sQ": false, "hK": true, "w8": true}//, "sQ":true}
     /**
     NOTE For the cards definition, we use:
     c for clubs, d for diamonds, s for spades, and h for hearts
@@ -41,7 +42,7 @@ CardStack: Renders a stack of cards, like in a hand or group of melt
         {:else}
             <div class="card-item" 
                 style="{additionalStyle}; z-index: {1+i}; margin-right: {overlap};" >
-                <Card suit="j" rank="7" />
+                <Card suit="w" rank="0" />
             </div>
         {/if}
     {/each}
