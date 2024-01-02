@@ -4,8 +4,8 @@ Card :
 -->
 
 <script lang="ts">
-    import HighlightBox from '../../SharedComponents/HighlightBox.svelte'
-    import DropShadowTile from '../../SharedComponents/DropShadowTile.svelte'
+    import HighlightBox from '../SharedComponents/HighlightBox.svelte'
+    import DropShadowTile from '../SharedComponents/DropShadowTile.svelte'
     export let cardAdditionalStyle = ""
     export let suit
     export let rank

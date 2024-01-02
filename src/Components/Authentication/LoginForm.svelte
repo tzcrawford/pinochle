@@ -5,9 +5,9 @@ LoginForm : User enters details to log in.
 
 <script lang="ts">
 // A writable store to hold the JWT token
-import { authToken, username } from '../../SharedComponents/store.js'
-import { loginWindowEnabled, newUserWindowEnabled} from '../../SharedComponents/store.js'
-import { isRequiredFieldValid } from '../../SharedComponents/BoilerplateFunctions.js'
+import { authToken, username } from '../SharedComponents/store.js'
+import { loginWindowEnabled, newUserWindowEnabled} from '../SharedComponents/store.js'
+import { isRequiredFieldValid } from '../SharedComponents/BoilerplateFunctions.js'
 
 /*** Handle user login ***/
 

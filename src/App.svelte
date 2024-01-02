@@ -9,7 +9,7 @@ App : The main component that handles the overall structure of your app.
     import { writable } from 'svelte/store'
 
     // Collect user config
-    import { fetchConfig } from './SharedComponents/configService.js'
+    import { fetchConfig } from './Components/SharedComponents/configService.js'
     let configResponse
     onMount(async () => {
     try {
@@ -23,12 +23,12 @@ App : The main component that handles the overall structure of your app.
     }
     });
     
-    import { userSkillLevel, config } from './SharedComponents/store.js'
+    import { userSkillLevel, config } from './Components/SharedComponents/store.js'
 
-    import Header from './SharedComponents/Header.svelte'
-    import HeaderUserBanner from './SharedComponents/HeaderUserBanner.svelte'
-    import MainPageContent from './Panels/MainPageContent.svelte'
-    import Footer from './SharedComponents/Footer.svelte'
+    import Header from './Components/SharedComponents/Header.svelte'
+    import HeaderUserBanner from './Components/SharedComponents/HeaderUserBanner.svelte'
+    import MainPageContent from './Components/Panels/MainPageContent.svelte'
+    import Footer from './Components/SharedComponents/Footer.svelte'
 
 </script>
 

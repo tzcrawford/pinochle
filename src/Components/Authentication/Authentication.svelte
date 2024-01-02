@@ -4,14 +4,14 @@ Authentication : Manages user authentication.
 
 <script lang="ts">
     import { writable } from 'svelte/store'
-    import { isRequiredFieldValid } from '../../SharedComponents/BoilerplateFunctions.js'
+    import { isRequiredFieldValid } from '../SharedComponents/BoilerplateFunctions.js'
 
-    import PopUpWindow from '../../SharedComponents/PopUpWindow.svelte'
+    import PopUpWindow from '../SharedComponents/PopUpWindow.svelte'
     import LoginForm from './LoginForm.svelte'
     import Signup from './Signup.svelte'
 
     // A writable store to hold the JWT token
-    import { authToken, loginWindowEnabled, newUserWindowEnabled} from '../../SharedComponents/store.js'
+    import { authToken, loginWindowEnabled, newUserWindowEnabled} from '../SharedComponents/store.js'
 
 </script>
 

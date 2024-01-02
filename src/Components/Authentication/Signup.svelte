@@ -11,9 +11,9 @@ Signup : Queries database to create new user.
 
 <script lang="ts">
 import { onMount } from 'svelte'; 
-import { authToken, username } from '../../SharedComponents/store.js'
-import { loginWindowEnabled, newUserWindowEnabled } from '../../SharedComponents/store.js'
-import { isRequiredFieldValid } from '../../SharedComponents/BoilerplateFunctions.js'
+import { authToken, username } from '../SharedComponents/store.js'
+import { loginWindowEnabled, newUserWindowEnabled } from '../SharedComponents/store.js'
+import { isRequiredFieldValid } from '../SharedComponents/BoilerplateFunctions.js'
 
 let errInputFieldsMissing = false
 let errInputFieldsIncorrect = false
