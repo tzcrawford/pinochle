@@ -9,7 +9,7 @@ Footer : What the bottom of the web page will show
     let gitRepo = "https://github.com/tzcrawford/pinochle"
 </script>
 
-<div>
+<div class="footer">
     <hr />
     This project is distributed under a free and open source license.
     <br />
@@ -17,7 +17,7 @@ Footer : What the bottom of the web page will show
 </div>
 
 <style>
-    div {
+    div.footer {
         text-align: center;
     }
     hr {

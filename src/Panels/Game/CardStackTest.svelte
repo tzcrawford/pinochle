@@ -2,7 +2,7 @@
 import CardStack from './CardStack.svelte'
 </script>
 
-<div style="margin:2em">
+<div class="card-stack-test" style="margin:2em">
     <div style="display: flex; justify-content: center;">
         <CardStack />
     </div>
@@ -14,6 +14,6 @@ import CardStack from './CardStack.svelte'
         <CardStack />
     </div>
     <div style="display: flex; justify-content: center;transform:rotate(45deg);">
-        <CardStack overlap="-6em" />
+        <CardStack overlap="-4.8em" />
     </div>
 </div>

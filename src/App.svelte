@@ -27,23 +27,18 @@ App : The main component that handles the overall structure of your app.
 
     import Header from './SharedComponents/Header.svelte'
     import HeaderUserBanner from './SharedComponents/HeaderUserBanner.svelte'
+    import MainPageContent from './Panels/MainPageContent.svelte'
     import Footer from './SharedComponents/Footer.svelte'
-
-    import Authentication from './Panels/Authentication/Authentication.svelte'
-    import Signup from './Panels/Authentication/Signup.svelte'
-    
-    import CardStackTest from './Panels/Game/CardStackTest.svelte'
 
 </script>
 
 <main>
     {#if $config !== null}
         <Header><HeaderUserBanner /></Header>
-        <Authentication />
-        <CardStackTest />
+        <MainPageContent />
         <Footer />
     {:else}
-        <p>Loading</p>
+        <p>Loading...</p>
     {/if}
 </main>
 
