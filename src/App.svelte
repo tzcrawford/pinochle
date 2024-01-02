@@ -27,7 +27,7 @@ App : The main component that handles the overall structure of your app.
 
     import Header from './Components/SharedComponents/Header.svelte'
     import HeaderUserBanner from './Components/SharedComponents/HeaderUserBanner.svelte'
-    import MainPageContent from './Components/Panels/MainPageContent.svelte'
+    import MainPageContent from './Components/MainPageContent.svelte'
     import Footer from './Components/SharedComponents/Footer.svelte'
 
 </script>

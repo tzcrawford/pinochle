@@ -29,11 +29,13 @@ PopUpWindow : Pop up for warning or error
     height: 100%;
     position: fixed;
     background: rgba(0,0,0,0.8);
+    z-index: 1000;
   }
   .popUp{
     padding: 10px;
     border-radius: 10px;
     margin: 10% auto;
     text-align: center;
+    z-index: 1001;
   }
 </style>
