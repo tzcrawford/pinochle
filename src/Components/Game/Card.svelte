@@ -4,6 +4,9 @@ Card :
 -->
 
 <script lang="ts">
+    import { config } from '../SharedComponents/store.js'
+    let backgroundColor = $config.cardStyle.backColor
+
     import HighlightBox from '../SharedComponents/HighlightBox.svelte'
     import DropShadowTile from '../SharedComponents/DropShadowTile.svelte'
     export let cardAdditionalStyle = ""
@@ -62,7 +65,7 @@ Card :
     on:blur={() => {}}
 > <!-- A container for the whole card -->
     <DropShadowTile 
-        additionalStyle="max-width:7em;width:7em;max-height:12em;height:12em;margin:0;padding:0px;{cardHighlightedStyle};{cardAdditionalStyle}"
+        additionalStyle="max-width:7em;width:7em;max-height:12em;height:12em;margin:0;padding:0px;background-color: {backgroundColor};{cardHighlightedStyle};{cardAdditionalStyle}"
     >
             <HighlightBox enabled={highlightBoxEnabled} highlightPositionStyle={highlightPositionStyle}>
             <div class="top-char-cont">
