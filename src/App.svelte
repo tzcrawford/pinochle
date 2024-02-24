@@ -24,7 +24,7 @@ App : The main component that handles the overall structure of your app.
     });
     
     import { userSkillLevel, config } from './Components/SharedComponents/store.js'
-
+    import Authentication from './Components/Authentication/Authentication.svelte'
     import Header from './Components/SharedComponents/Header.svelte'
     import HeaderUserBanner from './Components/SharedComponents/HeaderUserBanner.svelte'
     import MainPageContent from './Components/MainPageContent.svelte'
@@ -34,6 +34,7 @@ App : The main component that handles the overall structure of your app.
 
 <main>
     {#if $config !== null}
+        <Authentication />
         <Header><HeaderUserBanner /></Header>
         <MainPageContent />
         <Footer />
