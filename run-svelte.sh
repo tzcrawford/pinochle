@@ -13,10 +13,10 @@ fi
 
 # Ensure create-svelte is installed such that we can autobuild our app
 if ! npm list -g --depth 0 | grep create-svelte > /dev/null ; then 
-    read -p "Not finding svelte packages. Should we run \`npm install -g create-svelte\`? [Y/n]" confirm_install_svelte
+    read -p "Not finding svelte packages. Should we run \`sudo npm install -g create-svelte\`? [Y/n]" confirm_install_svelte
     case "$confirm_install_svelte" in
         [Yy]|[Yy][Ee][Ss]|"")
-            npm install -g create-svelte
+            sudo npm install -g create-svelte
             ;;
         *)
             fail_to_run

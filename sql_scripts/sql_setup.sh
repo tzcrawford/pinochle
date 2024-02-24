@@ -5,8 +5,8 @@ CONFIG_FILE="../config.json"
 
 # Check if config.json exists; if not, create from template
 if [ ! -e "$CONFIG_FILE" ]; then
-    echo "Could not find $CONFIG_FILE, creating from template"
-    cp config.json.template "$CONFIG_FILE" || exit 1
+    echo "Could not find $CONFIG_FILE, please create one from config.json.template"
+   exit 1
 fi
 
 # Read configuration from config.json

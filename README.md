@@ -32,19 +32,20 @@ The software stack includes:
 2. Create a directory to host these files.
 3. Run `python -m venv venv && source ./venv/bin/activate` to create and enter a python virtual environment where python packages can be installed without affecting your system configuration.
 4. Clone and navigate into this repository.
-5. (?) Optionally install node.js to compile the svelte packages if you want make any frontend modifications.
+5. Install node.js to compile the svelte packages if you want make any frontend modifications.
 6. Copy `config.json.template` onto `config.json` and make any necessary modifications, especially if you want to run outside your local network.
 7. Install PostgreSQL
 8. Run the `./setup.sh` wizard to set up the app for running.
     - Runs `pip install -r requirements.txt` to install the necessary python requirements.
     - Configures PostgreSQL for the app.
+9. Run `./run-svelte.sh` at least once to compile the frontend code.
 
 ### Running the server
 
 1. Ensure the postgres service is enabled and running.
 2. Run `./flask_server.py` to start hosting the web server, navigate to http://localhost:5000 to load the client on your own machine.
 3. Run the `./game_server.py` (Currently incomplete!) so that flask can query other threads for game logic.
-4. Optionally (?) run `./run-svelte.sh` to activate the automatic svelte compiler on file save to one of the frontend source code files.
+4. Optionally, run `./run-svelte.sh` to activate the automatic svelte compiler on file save.
 
 ## License and Attribution
 
