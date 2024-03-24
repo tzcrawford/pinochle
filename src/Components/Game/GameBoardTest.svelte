@@ -65,9 +65,9 @@ div.top-and-bottom-players0 {
 }
 div.top-and-bottom-players1 {
     display: flex;
-    justify-content: center;
     flex-direction: column;
-    height: 100%;
+    justify-content: space-between;
+    height: 100vh;
 }
 
 
@@ -87,16 +87,16 @@ div.right-player2 {
     transform: rotate(-90deg);
 }
 div.top-player1 {
+    display:flex;
+    justify-content: center;
 }
 div.bottom-player1 {
+    display:flex;
+    justify-content: center;
 }
 div.top-player2 {
-    display: flex;
-    justify-content: center;
 }
 div.bottom-player2 {
-    display: flex;
-    justify-content: center;
 }
 
 </style>
