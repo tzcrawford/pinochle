@@ -9,30 +9,18 @@ import CardStack from './CardStack.svelte'
     <div class="game-board-cont1">
         <div class="left-player0">
             <div class="left-player1">
-                <div class="left-player2">
-                    <CardStack />
-                </div>
+                <CardStack />
             </div>
         </div>
-        <div class="top-and-bottom-players0">
-            <div class="top-and-bottom-players1">
-                <div class="top-player1">
-                    <div class="top-player2">
-                        <CardStack />
-                    </div>
-                </div>
-                <div class="bottom-player1">
-                    <div class="bottom-player2">
-                        <CardStack />
-                    </div>
-                </div>
-            </div>
+        <div class="top-player0">
+            <CardStack />
+        </div>
+        <div class="bottom-player0">
+            <CardStack />
         </div>
         <div class="right-player0">
             <div class="right-player1">
-                <div class="right-player2">
-                    <CardStack />
-                </div>
+                <CardStack />
             </div>
         </div>
     </div>
@@ -46,57 +34,41 @@ div.game-board-cont0 {
 }
 div.game-board-cont1 {
     display: grid;
-    grid-template-columns: 20% 60% 20%;
+    grid-gap: 0px;
+    grid-template-columns: [col1-start] 20% [col2-start] 60% [col3-start] 20% [col3-end];
+    grid-template-rows: [row1-start] auto [row2-start] auto [row2-end];
     width: 100%;
-    height: 100%;
+    height: 90%;
+}
+div.top-player0 {
+    grid-column: col2-start/col3-start;
+    grid-row: row1-start/row2-start;
+    align-self: start;
+    justify-self: center;
+}
+div.bottom-player0 {
+    grid-column: col2-start/col3-start;
+    grid-row: row2-start/row2-end;
+    align-self: end;
+    justify-self: center;
 }
 
 div.left-player0 {
-    width: 30%;
-    height: 100%;
+    grid-column: col1-start/col2-start;
+    grid-row: row1-start/row2-end ;
+    align-self: center;
+    justify-self: center;
 }
 div.right-player0 {
-    width: 30%;
-    height: 100%;
+    grid-column: col3-start/col3-end;
+    grid-row: row1-start/row2-end ;
+    align-self: center;
+    justify-self: center;
 }
-div.top-and-bottom-players0 {
-    width: 40%;
-    height: 100%;
-}
-div.top-and-bottom-players1 {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100vh;
-}
-
-
 div.left-player1 {
-    display: flex;
-    justify-content: center;
-}
-div.right-player1 {
-    display: flex;
-    justify-content: center;
-}
-
-div.left-player2 {
     transform: rotate(90deg);
 }
-div.right-player2 {
+div.right-player1 {
     transform: rotate(-90deg);
 }
-div.top-player1 {
-    display:flex;
-    justify-content: center;
-}
-div.bottom-player1 {
-    display:flex;
-    justify-content: center;
-}
-div.top-player2 {
-}
-div.bottom-player2 {
-}
-
 </style>
