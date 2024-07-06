@@ -44,10 +44,10 @@ outdated=$(npm outdated --json)
 if echo "$outdated" | jq -e 'map(.current == .wanted) | all' >/dev/null; then # Here we ensure that all packages have matching current and wanted (as declared in package.json) versions.
     echo "All required packages are installed."
 else
-    read -p "Not finding packages described in \`package.json\`. Should we run \`npm install\`? [Y/n]" confirm_install_pkgs
+    read -p "Not finding packages described in \`package.json\`. Should we run \`npm install && npm update\`? [Y/n]" confirm_install_pkgs
     case "$confirm_install_pkgs" in
         [Yy]|[Yy][Ee][Ss]|"")
-            npm install
+            npm install && npm update
             ;;
         *)
             fail_to_run
