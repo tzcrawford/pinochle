@@ -7,7 +7,10 @@ from flask import Flask, request, jsonify, send_from_directory, send_file
 from flask_jwt_extended import JWTManager, create_access_token
 from flask_cors import CORS, cross_origin
 import keyring
+
 import sql_connect as sc
+from py_modules.api_calls_game_init import api_calls_game_init
+from py_modules.api_calls_game_state import api_calls_game_state
 
 config_file = "config.json"
 
@@ -150,7 +153,8 @@ def get_user_stats():
         ").to_dict('records')
     return jsonify(langData), 200, {'Content-Type': 'application/json'}
 
-
+for i in [api_calls_game_init,api_calls_game_state]:
+    app.register_blueprint(i)
 
 if __name__ == "__main__":
     app.run(debug=True)
