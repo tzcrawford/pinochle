@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 # Credit to the following repository, distributed under GPL-3.
 # https://github.com/derwyddon/postgreql_countries.sql/tree/master
 # Here we use a list of ISO 639-1 codes available on wikipedia at: 
 # https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
-CONFIG_FILE="../config.json"
+CONFIG_FILE="config.json"
 # Check if config.json exists; if not, create from template
 if [ ! -e "$CONFIG_FILE" ]; then
     echo "Could not find $CONFIG_FILE, creating from template"
@@ -18,6 +18,7 @@ DB_USER=$(jq -r '.postgresUsername' "$CONFIG_FILE")
 DB_LOCALE=$(jq -r '.postgresLocale' "$CONFIG_FILE" || echo "C.UTF-8")
 DB_ENCODING=$(jq -r '.postgresEncoding' "$CONFIG_FILE" || echo "UTF8")
 DB_LOCATION=$(jq -r '.postgresDBLocation' "$CONFIG_FILE")
+PGHOST="/run/user/$(id -u)/pinochle-postgresql"
 
 heredoc_content=$(cat << SQL
 START TRANSACTION;
@@ -235,5 +236,5 @@ COMMIT;
 SQL
 )
 
-source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "$heredoc_content"
+source ./${DB_USER}_password && psql -d postgres -h "$PGHOST" -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "$heredoc_content"
 

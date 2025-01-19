@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-CONFIG_FILE="../config.json"
+CONFIG_FILE="config.json"
 # Check if config.json exists; if not, create from template
 if [ ! -e "$CONFIG_FILE" ]; then
     echo "Could not find $CONFIG_FILE, creating from template"
@@ -14,12 +14,14 @@ DB_USER=$(jq -r '.postgresUsername' "$CONFIG_FILE")
 DB_LOCALE=$(jq -r '.postgresLocale' "$CONFIG_FILE" || echo "C.UTF-8")
 DB_ENCODING=$(jq -r '.postgresEncoding' "$CONFIG_FILE" || echo "UTF8")
 DB_LOCATION=$(jq -r '.postgresDBLocation' "$CONFIG_FILE")
+PGHOST="/run/user/$(id -u)/pinochle-postgresql"
+
 STARTING_SKILL=$(jq -r '.starting_skill' "$CONFIG_FILE")
 
-source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -d postgres -h "$PGHOST" -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 DROP VIEW IF EXISTS users_vw;
 "
-source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -d postgres -h "$PGHOST" -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 CREATE VIEW users_vw AS
 SELECT 
     a.userid,a.username,a.language_code,a.location,a.country_code,a.current_skill

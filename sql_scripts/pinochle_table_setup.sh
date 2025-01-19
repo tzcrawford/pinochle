@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-CONFIG_FILE="../config.json"
+CONFIG_FILE="config.json"
 # Check if config.json exists; if not, create from template
 if [ ! -e "$CONFIG_FILE" ]; then
     echo "Could not find $CONFIG_FILE, creating from template"
@@ -14,12 +14,13 @@ DB_USER=$(jq -r '.postgresUsername' "$CONFIG_FILE")
 DB_LOCALE=$(jq -r '.postgresLocale' "$CONFIG_FILE" || echo "C.UTF-8")
 DB_ENCODING=$(jq -r '.postgresEncoding' "$CONFIG_FILE" || echo "UTF8")
 DB_LOCATION=$(jq -r '.postgresDBLocation' "$CONFIG_FILE")
+PGHOST="/run/user/$(id -u)/pinochle-postgresql"
 STARTING_SKILL=$(jq -r '.starting_skill' "$CONFIG_FILE")
 
-source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -d postgres -h "$PGHOST" -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 DROP TABLE IF EXISTS users CASCADE;
 "
-source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -d postgres -h "$PGHOST" -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 CREATE TABLE users (
     userid SERIAL PRIMARY KEY,
     username VARCHAR(25) NULL,
@@ -34,10 +35,10 @@ CREATE TABLE users (
 );
 "
 
-source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -d postgres -h "$PGHOST" -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 DROP TABLE IF EXISTS games CASCADE;
 "
-source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -d postgres -h "$PGHOST" -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 CREATE TABLE games (
     gameid SERIAL PRIMARY KEY,
     lobby_title VARCHAR(50) NULL,
@@ -53,10 +54,10 @@ CREATE TABLE games (
 );
 "
 
-source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -d postgres -h "$PGHOST" -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 DROP TABLE IF EXISTS game_players CASCADE;
 "
-source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -d postgres -h "$PGHOST" -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 CREATE TABLE game_players (
     gameid INTEGER NOT NULL,
     player INTEGER NOT NULL REFERENCES users (userid),
@@ -68,10 +69,10 @@ CREATE INDEX gameid ON game_players (gameid);
 CREATE INDEX player ON game_players (player);
 "
 
-source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -d postgres -h "$PGHOST" -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 DROP TABLE IF EXISTS hands CASCADE;
 "
-source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -d postgres -h "$PGHOST" -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 CREATE TABLE hands (
     handid SERIAL PRIMARY KEY,
     game INTEGER NOT NULL REFERENCES games(gameid),
@@ -86,7 +87,7 @@ CREATE INDEX game ON hands (game);
 
 
 # Create some test users
-source ./${DB_USER}_password && psql -h localhost -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
+source ./${DB_USER}_password && psql -d postgres -h "$PGHOST" -p $DB_PORT -U "$DB_USER" -d "$DB_NAME" -c "
 INSERT INTO users
     (username,email,password,language_code,location,country_code,current_skill)
 VALUES
