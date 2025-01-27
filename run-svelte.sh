@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 function fail_to_run {
     echo "Could not run svelte app" >&2
